@@ -1,0 +1,66 @@
+body {
+
+  /* background: no-repeat; */
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2) ), url('https://images.pexels.com/photos/4281747/pexels-photo-4281747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+  background-size: cover;
+}
+.height-100 {
+  height: 100vh;
+}
+.success{
+  color: #5cb85c;
+}
+.cardd {
+  width: 600px;
+  border: none;
+  height: 600px;
+  box-shadow: 0px 5px 20px 0px #d2dae3;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardd h6 {
+  color: #0d6efd;
+  font-size: 20px;
+}
+.inputs input {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.cardd-2 {
+  background-color: #fff;
+  padding: 10px;
+  width: 550px;
+  height: 100px;
+  bottom: -50px;
+  left: 20px;
+  position: absolute;
+  
+  border-radius: 5px;
+}
+.cardd-2 .content {
+  margin-top: 50px;
+}
+.cardd-2 .content a {
+  color: red;
+}
+.form-control:focus {
+  box-shadow: none;
+  border: 2px solid red;
+}
+.validate {
+  border-radius: 20px;
+  height: 40px;
+  background-color: #0d6efd;
+  border: 1px solid #0d6efd;
+  width: 140px;
+}
