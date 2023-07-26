@@ -5,8 +5,10 @@ import useNotification from "../snackbars/SnackBar";
 
 
 
-const otpUrl = "http://localhost:8000/send-otp";
-const emailExistingUrl = "http://localhost:8000/checkExistingEmail";
+// const otpUrl = "http://localhost:8000/send-otp";
+// const emailExistingUrl = "http://localhost:8000/checkExistingEmail";
+const otpUrl = "https://hungrezy-api-tariqrasheed172001.onrender.com/send-otp";
+const emailExistingUrl = "https://hungrezy-api-tariqrasheed172001.onrender.com/checkExistingEmail";
 
 function Register() {
   const navigate = useNavigate();
@@ -46,8 +48,6 @@ function Register() {
 
     // checking if email already exists 
 
-
-    // verifying with otp 
     if(data.passwordd === compPassword){
       axios
       .post(emailExistingUrl, { email: data.email })

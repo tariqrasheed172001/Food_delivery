@@ -18,7 +18,7 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   useEffect(()=>{
-    axios.get('http://localhost:8000/')
+    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/')
     .then(res => {
       console.log(res);
       if(res.data.Status === 'Success'){
@@ -34,7 +34,7 @@ function Home() {
 
   const handleLogout = (event) => {
 
-    axios.get('http://localhost:8000/logout')
+    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/logout')
     .then(res => {
       console.log(res);
       window.location.reload(true);

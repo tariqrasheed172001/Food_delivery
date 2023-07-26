@@ -4,7 +4,8 @@ import axios from "axios";
 import useNotification from '../snackbars/SnackBar'
 
 
-const url = "http://localhost:8000/login";
+// const url = "http://localhost:8000/login";
+const url = "https://hungrezy-api-tariqrasheed172001.onrender.com/login";
 
 
 function Login() {

@@ -17,8 +17,10 @@ function Otp() {
 
   const navigate = useNavigate();
 
-  const url = "http://localhost:8000/register";
-  const otpUrl = "http://localhost:8000/send-otp";
+  // const url = "http://localhost:8000/register";
+  // const otpUrl = "http://localhost:8000/send-otp";
+  const url = "https://hungrezy-api-tariqrasheed172001.onrender.com/register";
+  const otpUrl = "https://hungrezy-api-tariqrasheed172001.onrender.com/send-otp";
 
   const [otpVerification, setOtpVerification] = useState(false);
   const [resended,setResended] = useState(false);
