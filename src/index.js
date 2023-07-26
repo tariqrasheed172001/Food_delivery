@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Login from "./componants/users/Login"
-import Register from './componants/users/Register';
+import Login from "./componants/authentication/Login"
+import Register from './componants/authentication/Register';
 import Home from './componants/Home/Home';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';

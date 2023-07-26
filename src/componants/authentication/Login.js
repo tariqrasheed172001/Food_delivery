@@ -11,12 +11,16 @@ function Login() {
 
   const [conf,setConf] = useNotification();
   const [flag,setFlag] = useState(false);
+  const [userData,setUserData] = useState('');
 
   const navigate = useNavigate();
+
+  axios.defaults.withCredentials = true;
+
   const [formData,setFormData] = useState({
     email:"",
     passwordd:"",
-  })
+  });
 
 
   const handleSubmit = (event) =>{
@@ -24,22 +28,30 @@ function Login() {
 
     axios.post(url,formData)
     .then((res)=>{
-      console.log(res.data.message);
-      console.log(res.data.message.length);
-      if(res.data.message.length <= 22){
-        setConf({ msg: "Logged in successfully", variant: "success" });
+      // console.log(res);
+      // console.log(res.data.message);
+      // console.log(res.data.message.length);
+      console.log(res);
+      if(res.status === 200){
+        setConf({ msg: res.data.message, variant: "success" });
         setFlag(true);
-      }else{
-        setConf({ msg: "wrong email or password", variant: "error" });
+        setUserData(res.data.user);
+        
+        console.log(res.data.user.name);
+        
+      }else if(res.status === 201){
+        setConf({ msg: res.data.message, variant: "error" });
       }
     }).catch((error) => {
       setConf({ msg: "An error occurred. Please try again later.", variant: "error" });
     });
   }
+  console.log(userData);
+  
 
   useEffect(()=>{
     if(flag){
-      navigate('/');
+      navigate('/',{state: userData});
     }
   },[flag,navigate])
   

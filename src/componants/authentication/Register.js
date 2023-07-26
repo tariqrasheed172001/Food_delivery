@@ -1,56 +1,93 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import axios from 'axios'
+import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 
 
 
-const url = "http://localhost:8000/register";
+const otpUrl = "http://localhost:8000/send-otp";
+const emailExistingUrl = "http://localhost:8000/checkExistingEmail";
 
 function Register() {
   const navigate = useNavigate();
-  const [conf,setConf] = useNotification();
-  const [flag,setFlag] = useState(false);
+  const [conf, setConf] = useNotification();
 
-  const [compPassword,setCompPassword] = useState("");
-  const [data,setData] = useState({
-    name:"",
-    email:"",
-    passwordd:"",
-    phone:""
+  const [otp, setOtp] = useState("");
+  const [otpFlag, setOtpFlag] = useState(false);
+
+  const [compPassword, setCompPassword] = useState("");
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    passwordd: "",
+    phone: "",
   });
+
+  const sendOtp = () =>{
+    axios
+      .post(otpUrl, { phoneNumber: `+91${data.phone}` })
+      .then((res) => {
+        console.log(res);
+        setOtp(res.data.otp);
+        setOtpFlag(true);
+      })
+      .catch((error) => {
+        console.error("Error sending OTP:", error);
+      });
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
 
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault(); // preventing the default page reload
 
-    if(data.passwordd === compPassword){
-      axios.post(url,data).then((res)=>{
-        console.log(res);
-      })
-      setConf({msg: "successfully signedUp", variant:"success"})
-      setFlag(true);
-    }else{
-      setConf({msg: "Passwords do NOT match.", variant:"error"})
-    }
-  }
+    // checking if email already exists 
 
-  useEffect(()=>{
-    if(flag)
-      navigate('/login');
-  },[flag,navigate])
+
+    // verifying with otp 
+    if(data.passwordd === compPassword){
+      axios
+      .post(emailExistingUrl, { email: data.email })
+      .then((res) => {
+        console.log(res);
+        sendOtp();
+      })
+      .catch((error) => {
+        console.error("Error checking Existing Url:", error);
+        setConf({msg: error.response.data.message,variant:"warning"});
+      });
+    }else{
+      setConf({ msg: "Passwords do NOT match.", variant: "error" });
+    }
+  };
+
+
+  useEffect(() => {
+    if (otpFlag)
+      navigate("/send-otp", {
+        state: {
+          otp: otp,
+          formData: data,
+        },
+      });
+  }, [otpFlag, otp,navigate]);
 
   return (
-    <section className="vh-100" style={{background: "linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2) ), url('https://img.freepik.com/free-photo/top-view-circular-food-frame_23-2148723455.jpg?w=1800&t=st=1690031370~exp=1690031970~hmac=c12c351c50673109e0fe0f99893e9f3b6a09668e1da503d7288cb8e82bc47f8a')",backgroundSize:"contain"}}>
+    <section
+      className="vh-100"
+      style={{
+        background:
+          "linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2) ), url('https://img.freepik.com/free-photo/top-view-circular-food-frame_23-2148723455.jpg?w=1800&t=st=1690031370~exp=1690031970~hmac=c12c351c50673109e0fe0f99893e9f3b6a09668e1da503d7288cb8e82bc47f8a')",
+        backgroundSize: "contain",
+      }}
+    >
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-lg-12 col-xl-11">
-            <div className="card text-black" style={{borderRadius: "25px"}}>
+            <div className="card text-black" style={{ borderRadius: "25px" }}>
               <div className="card-body p-md-5">
                 <div className="row justify-content-center">
                   <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
@@ -58,13 +95,17 @@ function Register() {
                       Sign up
                     </p>
 
-                    <form onSubmit={(event) => {
-                handleSubmit(event);
-            }} method="POST" className="mx-1 mx-md-4">
+                    <form
+                      onSubmit={(event) => {
+                        handleSubmit(event);
+                      }}
+                      method="POST"
+                      className="mx-1 mx-md-4"
+                    >
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
-                        {/* <label className="form-label" for="form3Example1c">
+                          {/* <label className="form-label" for="form3Example1c">
                             Your Name
                           </label> */}
                           <input
@@ -76,7 +117,6 @@ function Register() {
                             name="name"
                             onChange={handleChange}
                           />
-                          
                         </div>
                       </div>
 
@@ -87,8 +127,8 @@ function Register() {
                             Your Email
                           </label> */}
                           <input
-                          required
-                             placeholder="Your Email"
+                            required
+                            placeholder="Your Email"
                             type="email"
                             id="form3Example3c"
                             className="form-control"
@@ -105,7 +145,7 @@ function Register() {
                             phone
                           </label> */}
                           <input
-                          required
+                            required
                             placeholder="phone"
                             type="number"
                             pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
@@ -124,8 +164,8 @@ function Register() {
                             Password
                           </label> */}
                           <input
-                          required
-                          placeholder="Password"
+                            required
+                            placeholder="Password"
                             type="password"
                             id="form3Example4c"
                             className="form-control"
@@ -142,12 +182,12 @@ function Register() {
                             Repeat your password
                           </label> */}
                           <input
-                          required
+                            required
                             placeholder="Repeat your password"
                             type="password"
                             id="form3Example4cd"
                             className="form-control"
-                            onChange={(event)=>{
+                            onChange={(event) => {
                               event.preventDefault();
                               setCompPassword(event.target.value);
                             }}
@@ -155,12 +195,11 @@ function Register() {
                         </div>
                       </div>
 
-
                       <div className="form-check d-flex justify-content-center mb-5">
                         <input
                           required
                           className="form-check-input me-2"
-                         type="checkbox"
+                          type="checkbox"
                           value=""
                           id="form2Example3c"
                         />
@@ -171,12 +210,23 @@ function Register() {
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="submit" className="btn btn-primary btn-lg">
+                        <button
+                          type="submit"
+                          className="btn btn-primary btn-lg"
+                        >
                           SignUp
                         </button>
                       </div>
-                      <p className="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
-                    className="fw-bold text-body" onClick={()=>navigate("/login")} ><u>Login here</u></a></p>
+                      <p className="text-center text-muted mt-5 mb-0">
+                        Have already an account?{" "}
+                        <a
+                          href="#!"
+                          className="fw-bold text-body"
+                          onClick={() => navigate("/login")}
+                        >
+                          <u>Login here</u>
+                        </a>
+                      </p>
                     </form>
                   </div>
                   <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
