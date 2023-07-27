@@ -34,7 +34,7 @@ function Home() {
 
   const handleLogout = (event) => {
 
-    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/logout')
+    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/logout',{withCredentials:true})
     .then(res => {
       console.log(res);
       window.location.reload(true);

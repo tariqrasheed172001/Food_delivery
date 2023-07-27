@@ -29,7 +29,7 @@ function Otp() {
 
   const sendOtpAgain = () =>{
     axios
-      .post(otpUrl, { phoneNumber: `+91${receivedData?.formData?.phone}` })
+      .post(otpUrl, { phoneNumber: `+91${receivedData?.formData?.phone}` },{withCredentials:true})
       .then((res) => {
         console.log(res);
         receivedData.otp = res.data.otp;
@@ -42,7 +42,7 @@ function Otp() {
   }
 
   const registerUser = () => {
-    axios.post(url, receivedData?.formData)
+    axios.post(url, receivedData?.formData,{withCredentials:true})
     .then((res) => {
       console.log(res);
       setConf({ msg: res.data.message, variant: "success" });

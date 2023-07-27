@@ -27,7 +27,7 @@ function Register() {
 
   const sendOtp = () =>{
     axios
-      .post(otpUrl, { phoneNumber: `+91${data.phone}` })
+      .post(otpUrl, { phoneNumber: `+91${data.phone}` },{withCredentials:true})
       .then((res) => {
         console.log(res);
         setOtp(res.data.otp);
@@ -50,7 +50,7 @@ function Register() {
 
     if(data.passwordd === compPassword){
       axios
-      .post(emailExistingUrl, { email: data.email })
+      .post(emailExistingUrl, { email: data.email },{withCredentials:true})
       .then((res) => {
         console.log(res);
         sendOtp();
