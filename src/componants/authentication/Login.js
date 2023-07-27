@@ -2,12 +2,12 @@ import React,{useEffect, useState} from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from '../snackbars/SnackBar'
+import Cookies from 'js-cookie';
 
 
 // const url = "http://localhost:8000/login";
 // const url = "https://hungrezy-api-tariqrasheed172001.onrender.com/login";
 const url = `${process.env.REACT_APP_API}/login`;
-const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 
 function Login() {
@@ -39,6 +39,8 @@ function Login() {
         setUserData(res.data.user);
         
         console.log(res.data.user.name);
+
+        Cookies.set('token', res.data.token, { expires: 1 });
         
       }else if(res.status === 201){
         setConf({ msg: res.data.message, variant: "error" });
