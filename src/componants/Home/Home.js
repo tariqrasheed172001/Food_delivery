@@ -18,7 +18,7 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   useEffect(()=>{
-    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/',{withCredentials:true})
+    axios.get(`${process.env.REACT_APP_API}/`,{withCredentials:true})
     .then(res => {
       console.log(res);
       if(res.data.Status === 'Success'){
@@ -34,7 +34,7 @@ function Home() {
 
   const handleLogout = (event) => {
 
-    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/logout',{withCredentials:true})
+    axios.get(`${process.env.REACT_APP_API}/logout`,{withCredentials:true})
     .then(res => {
       console.log(res);
       window.location.reload(true);

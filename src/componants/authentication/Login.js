@@ -5,7 +5,9 @@ import useNotification from '../snackbars/SnackBar'
 
 
 // const url = "http://localhost:8000/login";
-const url = "https://hungrezy-api-tariqrasheed172001.onrender.com/login";
+// const url = "https://hungrezy-api-tariqrasheed172001.onrender.com/login";
+const url = `${process.env.REACT_APP_API}/login`;
+const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 
 function Login() {
@@ -24,9 +26,7 @@ function Login() {
   });
 
 
-  const handleSubmit = (event) =>{
-    event.preventDefault();
-
+  const login = () => {
     axios.post(url,formData,{withCredentials:true})
     .then((res)=>{
       // console.log(res);
@@ -46,6 +46,24 @@ function Login() {
     }).catch((error) => {
       setConf({ msg: "An error occurred. Please try again later.", variant: "error" });
     });
+  }
+
+  const handleSubmit = (event) =>{
+    event.preventDefault();
+
+    axios
+      .post(emailExistingUrl, { email: formData.email },{withCredentials:true})
+      .then((res) => {
+        console.log(res);
+        setConf({msg: "Email does not exist",variant:"warning"});
+      })
+      .catch((error) => {
+        console.error("Error checking Existing Url:", error);
+        // setConf({msg: error.response.data.message,variant:"warning"});
+        login();
+      });
+
+    
   }
   console.log(userData);
   
