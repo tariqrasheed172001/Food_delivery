@@ -18,7 +18,7 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   useEffect(()=>{
-    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/')
+    axios.get('https://hungrezy-api-tariqrasheed172001.onrender.com/',{withCredentials:true})
     .then(res => {
       console.log(res);
       if(res.data.Status === 'Success'){
