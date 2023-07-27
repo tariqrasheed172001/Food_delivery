@@ -44,26 +44,13 @@ function Login() {
         setConf({ msg: res.data.message, variant: "error" });
       }
     }).catch((error) => {
-      setConf({ msg: "An error occurred. Please try again later.", variant: "error" });
+      setConf({ msg: "User not found", variant: "error" });
     });
   }
 
   const handleSubmit = (event) =>{
     event.preventDefault();
-
-    axios
-      .post(emailExistingUrl, { email: formData.email },{withCredentials:true})
-      .then((res) => {
-        console.log(res);
-        setConf({msg: "Email does not exist",variant:"warning"});
-      })
-      .catch((error) => {
-        console.error("Error checking Existing Url:", error);
-        // setConf({msg: error.response.data.message,variant:"warning"});
-        login();
-      });
-
-    
+    login();
   }
   console.log(userData);
   
