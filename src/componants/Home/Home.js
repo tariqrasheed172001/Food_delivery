@@ -2,12 +2,11 @@ import { Link, useLocation } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import useNotification from '../snackbars/SnackBar'
+import Cookies from 'js-cookie';
 
 function Home() {
 
-  const [auth,setAuth] = useState(false);
-  const [name,setName] = useState("");
-  const [message,setMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [conf,setConf] = useNotification();
 
@@ -18,36 +17,28 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_API}/`,{withCredentials:true})
-    .then(res => {
-      console.log(res);
-      if(res.data.Status === 'Success'){
-        setAuth(true);
-        setName(res.data.name);
-      }else{
-        setAuth(false);
-        setMessage(res.data.Error)
-      }
-    }).catch((error) => console.log(error));
+    // Check if a token exists in the cookies
+    const token = Cookies.get('token');
+
+    if (token) {
+      // You may want to check if the token is expired here
+      // For simplicity, we'll assume the token is valid for now
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
   },[]);
 
 
   const handleLogout = (event) => {
-
-    axios.get(`${process.env.REACT_APP_API}/logout`,{withCredentials:true})
-    .then(res => {
-      console.log(res);
-      window.location.reload(true);
-      setAuth(false);
-    }).catch((error) => console.log(error));
-    
-    
+    Cookies.remove('token');
+    setLoggedIn(false);
   }
 
   return (
     <div className='container mt-4'> 
       {
-        auth ? 
+        loggedIn ? 
         <div>
           <h3>You are loggedIn {receivedData?.name}</h3>
           <h4>{receivedData?.email}</h4>
@@ -56,7 +47,7 @@ function Home() {
         </div>
         :
         <div>
-          <h3>{message}</h3>
+          <h3>Your not logged In</h3>
           <Link to="/login" className='btn btn-primary'>Login Now</Link>
         </div>
       }
