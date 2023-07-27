@@ -9,7 +9,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import Otp from './componants/OTP/Otp';
 
-
+// this is the index file
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
