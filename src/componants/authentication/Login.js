@@ -177,50 +177,61 @@ function Login() {
 
                       {/* forget password model start */}
                       <div
-                        className="modal top fade"
-                        id="exampleModal"
-                        tabindex="-1"
-                        aria-labelledby="exampleModalLabel"
-                        aria-hidden="true"
-                        data-mdb-backdrop="true"
-                        data-mdb-keyboard="true"
-                      >
-                        <div
-                          className="modal-dialog"
-                          style={{ width: "300px" }}
-                        >
-                          <div className="modal-content text-center">
-                            <div className="modal-header h5 text-white bg-primary justify-content-center">
-                              Password Reset
-                            </div>
-                            <div className="modal-body px-5">
-                              <p className="py-2">
-                                Enter your email address and we'll send you an
-                                email with instructions to reset your password.
-                              </p>
-                              <div className="form-outline">
-                                <input
-                                  type="email"
-                                  id="typeEmail"
-                                  className="form-control my-3"
-                                  placeholder="Email"
-                                  name = "email"
-                                  onChange={(event) => {
-                                    event.preventDefault();
-                                    setForgetPasswordEmail({
-                                      ...forgetPasswordEmail,
-                                      [event.target.name]: event.target.value,
-                                    });
-                                  }}
-                                />
-                              </div>
-                              <a onClick={(event) => handleSend(event)} href="#" className="btn btn-primary w-100">
-                                Send
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+  className="modal top fade"
+  id="exampleModal"
+  tabIndex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-mdb-backdrop="true"
+  data-mdb-keyboard="true"
+>
+  <div
+    className="modal-dialog"
+    style={{
+      width: "300px",
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    }}
+  >
+    <div className="modal-content text-center">
+      <div className="modal-header h5 text-white bg-primary justify-content-center">
+        Password Reset
+      </div>
+      <div className="modal-body px-5">
+        <p className="py-2">
+          Enter your email address and we'll send you an
+          email with instructions to reset your password.
+        </p>
+        <div className="form-outline">
+          <input
+            type="email"
+            id="typeEmail"
+            className="form-control my-3"
+            placeholder="Email"
+            name="email"
+            onChange={(event) => {
+              event.preventDefault();
+              setForgetPasswordEmail({
+                ...forgetPasswordEmail,
+                [event.target.name]: event.target.value,
+              });
+            }}
+          />
+        </div>
+        <a
+          onClick={(event) => handleSend(event)}
+          href="#"
+          className="btn btn-primary w-100"
+        >
+          Send
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
                       {/* forget password model end */}
                       
                       <p
