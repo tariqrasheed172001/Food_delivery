@@ -3,10 +3,6 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 
-
-
-// const otpUrl = "http://localhost:8000/send-otp";
-// const emailExistingUrl = "http://localhost:8000/checkExistingEmail";
 const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 

@@ -40,14 +40,14 @@ function Home() {
       {
         loggedIn ? 
         <div>
-          <h3>You are loggedIn {receivedData?.name}</h3>
+          <h3>You are logged In {receivedData?.name}</h3>
           <h4>{receivedData?.email}</h4>
           <h4>{receivedData?.phone}</h4>
           <button className='btn btn-danger' onClick={handleLogout} >logout</button>
         </div>
         :
         <div>
-          <h3>Your not logged In</h3>
+          <h3>You are not logged In</h3>
           <Link to="/login" className='btn btn-primary'>Login Now</Link>
         </div>
       }

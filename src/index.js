@@ -8,6 +8,8 @@ import Home from './componants/Home/Home';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import Otp from './componants/OTP/Otp';
+import ResetPassword from './componants/authentication/ResetPassword';
+import PageNotFound from './componants/authentication/PageNotFound';
 
 // this is the index file
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +23,8 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/send-otp" element={<Otp />}/>
+        <Route path="reset-password/:user_id/:token" element={<ResetPassword />} />
+        <Route path="/page-not-found" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   </SnackbarProvider> 
