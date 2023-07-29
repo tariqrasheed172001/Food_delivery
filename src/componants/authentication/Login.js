@@ -4,6 +4,7 @@ import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import Cookies from "js-cookie";
 import GoogleAuth from "./GoogleAuth";
+import { useDispatch } from "react-redux";
 
 const url = `${process.env.REACT_APP_API}/login`;
 
@@ -12,6 +13,10 @@ function Login() {
   const [flag, setFlag] = useState(false);
   const [userData, setUserData] = useState("");
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState({ email: "" });
+
+  const dispatch = useDispatch();
+
+  const [mailSended,setMailSended] = useState(false);
 
   const navigate = useNavigate();
 
@@ -76,6 +81,7 @@ function Login() {
           msg: "Link has been sent. Check your inbox",
           variant: "success",
         });
+        dispatch({type:'SET_RESET_PASSWORD_LINK_FLAG',payload:true});
         navigate("/login");
       })
       .catch((error) => {
