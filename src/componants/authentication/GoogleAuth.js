@@ -3,7 +3,7 @@ import GoogleLogin from "@leecheuk/react-google-login";
 import GoogleButton from "react-google-button";
 import Cookies from "js-cookie";
 
-function GoogleAuth({setUserData,setFlag}) {
+function GoogleAuth({ setUserData, setFlag }) {
   const onSuccess = (res) => {
     console.log(res);
     Cookies.set("token", res.accessToken, { expires: 1 });

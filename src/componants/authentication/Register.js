@@ -9,8 +9,6 @@ const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 function Register() {
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,7 +38,7 @@ function Register() {
       .then((res) => {
         console.log(res);
         setOtp(res.data.otp);
-        dispatch({type:'SET_OTP_FLAG',payload:true});
+        dispatch({ type: "SET_OTP_FLAG", payload: true });
         setOtpFlag(true);
       })
       .catch((error) => {
@@ -238,7 +236,10 @@ function Register() {
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <GoogleAuth setUserData={setUserData} setFlag={setFlag} />
+                        <GoogleAuth
+                          setUserData={setUserData}
+                          setFlag={setFlag}
+                        />
                       </div>
 
                       <p className="text-center text-muted mt-5 mb-0">

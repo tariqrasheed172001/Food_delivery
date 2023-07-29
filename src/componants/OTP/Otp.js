@@ -1,11 +1,8 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import useNotification from "../snackbars/SnackBar";
 import axios from "axios";
 import "./otp.css";
-
-
 
 function Otp() {
   const location = useLocation();
@@ -23,33 +20,37 @@ function Otp() {
   const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 
   const [otpVerification, setOtpVerification] = useState(false);
-  const [resended,setResended] = useState(false);
+  const [resended, setResended] = useState(false);
 
   const inputsRef = useRef([]);
 
-  const sendOtpAgain = () =>{
+  const sendOtpAgain = () => {
     axios
-      .post(otpUrl, { phoneNumber: `+91${receivedData?.formData?.phone}` },{withCredentials:true})
+      .post(
+        otpUrl,
+        { phoneNumber: `+91${receivedData?.formData?.phone}` },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log(res);
         receivedData.otp = res.data.otp;
         setResended(true);
-        setConf({msg:'A code has been resended',variant:'success'});
+        setConf({ msg: "A code has been resended", variant: "success" });
       })
       .catch((error) => {
         console.error("Error sending OTP:", error);
       });
-  }
+  };
 
   const registerUser = () => {
-    axios.post(url, receivedData?.formData,{withCredentials:true})
-    .then((res) => {
-      console.log(res);
-      setConf({ msg: res.data.message, variant: "success" });
-      setFlag(true);
-    })
-    
-};
+    axios
+      .post(url, receivedData?.formData, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        setConf({ msg: res.data.message, variant: "success" });
+        setFlag(true);
+      });
+  };
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -67,7 +68,7 @@ function Otp() {
   };
 
   let phoneNumber = receivedData?.formData?.phone;
-  phoneNumber = phoneNumber?.replace(/.(?=.{4})/g, '*'); //regular expression to mask firs 6 digits of a number.
+  phoneNumber = phoneNumber?.replace(/.(?=.{4})/g, "*"); //regular expression to mask firs 6 digits of a number.
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -83,13 +84,11 @@ function Otp() {
   };
 
   useEffect(() => {
-    if (otpVerification)
-      registerUser();
+    if (otpVerification) registerUser();
   }, [otpVerification]);
 
   useEffect(() => {
-    if (flag) 
-      navigate("/login");
+    if (flag) navigate("/login");
   }, [flag]);
   return (
     <div
@@ -110,7 +109,9 @@ function Otp() {
               to verify your account
             </h6>
             <div>
-              <span className="success">A code has been {resended ? " resended" : " sent"} to</span>
+              <span className="success">
+                A code has been {resended ? " resended" : " sent"} to
+              </span>
               <small className="success">*******{phoneNumber}</small>
             </div>
             <div
@@ -142,7 +143,10 @@ function Otp() {
           <div className="card cardd-2">
             <div className="content d-flex justify-content-center align-items-center">
               <span>Didn't get the code </span>
-              <button onClick={()=>sendOtpAgain()} className="btn btn-danger btn-sm">
+              <button
+                onClick={() => sendOtpAgain()}
+                className="btn btn-danger btn-sm"
+              >
                 Resend
               </button>
             </div>

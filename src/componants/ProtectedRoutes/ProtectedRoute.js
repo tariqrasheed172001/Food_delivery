@@ -1,27 +1,22 @@
-import Login from '../authentication/Login'
-import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import Login from "../authentication/Login";
+import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function ProtectedRoute() {
+  const [auth, setAuth] = useState(false);
 
-  const [auth,setAuth] = useState(false);
-
-  useEffect(()=>{
-    const token = Cookies.get('token');
+  useEffect(() => {
+    const token = Cookies.get("token");
 
     if (token) {
-        setAuth(true);
+      setAuth(true);
     } else {
-        setAuth(false);
+      setAuth(false);
     }
-  },[]);
+  }, []);
 
-  return (
-    <div>
-        {auth ? <Outlet /> : <Login />}
-    </div>
-  )
+  return <div>{auth ? <Outlet /> : <Login />}</div>;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;
