@@ -1,5 +1,5 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
+import GoogleLogin from "@leecheuk/react-google-login";
 import GoogleButton from "react-google-button";
 import Cookies from "js-cookie";
 
