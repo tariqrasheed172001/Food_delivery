@@ -33,6 +33,7 @@ function Home() {
   const handleLogout = (event) => {
     Cookies.remove('token');
     setLoggedIn(false);
+    console.clear();
   }
 
   return (

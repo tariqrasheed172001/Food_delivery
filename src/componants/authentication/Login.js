@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import Cookies from "js-cookie";
+import GoogleAuth from "./GoogleAuth";
 
 const url = `${process.env.REACT_APP_API}/login`;
 
@@ -10,8 +11,7 @@ function Login() {
   const [conf, setConf] = useNotification();
   const [flag, setFlag] = useState(false);
   const [userData, setUserData] = useState("");
-  const [forgetPasswordEmail,setForgetPasswordEmail] = useState({email:""});
-
+  const [forgetPasswordEmail, setForgetPasswordEmail] = useState({ email: "" });
 
   const navigate = useNavigate();
 
@@ -26,7 +26,6 @@ function Login() {
     axios
       .post(url, formData, { withCredentials: true })
       .then((res) => {
-
         console.log(res);
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
@@ -44,6 +43,8 @@ function Login() {
         setConf({ msg: "User not found", variant: "error" });
       });
   };
+
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,17 +66,22 @@ function Login() {
     modal.show(); // Show the modal immediately when the component mounts
   };
 
-  const handleSend = (event) =>{
+  const handleSend = (event) => {
     event.preventDefault();
-    
-    axios.post(`${process.env.REACT_APP_API}/reset-password`,forgetPasswordEmail)
-    .then((res)=>{
-        setConf({msg:"Link has been sent. Check your inbox",variant:"success"});
-        navigate('/login');
-    }).catch((error)=>{
-      setConf({msg:error.response.data.message,variant:"error"});
-    });
-  }
+
+    axios
+      .post(`${process.env.REACT_APP_API}/reset-password`, forgetPasswordEmail)
+      .then((res) => {
+        setConf({
+          msg: "Link has been sent. Check your inbox",
+          variant: "success",
+        });
+        navigate("/login");
+      })
+      .catch((error) => {
+        setConf({ msg: error.response.data.message, variant: "error" });
+      });
+  };
 
   return (
     <section
@@ -113,14 +119,12 @@ function Login() {
                         ></i>
                         <span className="h1 fw-bold mb-0">Logo</span>
                       </div>
-
                       <h5
                         className="fw-normal mb-3 pb-3"
                         style={{ letterSpacing: "1px" }}
                       >
                         Sign into your account
                       </h5>
-
                       <div className="form-outline mb-5">
                         <input
                           required
@@ -138,7 +142,6 @@ function Login() {
                           }}
                         />
                       </div>
-
                       <div className="form-outline mb-5">
                         <input
                           required
@@ -156,7 +159,6 @@ function Login() {
                           }}
                         />
                       </div>
-
                       <div className="pt-1 mb-4 mb-lg-4">
                         <button
                           type="submit"
@@ -166,86 +168,82 @@ function Login() {
                         </button>
                       </div>
 
+                      <GoogleAuth setUserData={setUserData} setFlag={setFlag} />
+
                       <a
                         className="small text-muted"
-                        style={{ cursor: "pointer" ,textDecoration:"none"}}
+                        style={{ cursor: "pointer", textDecoration: "none" }}
                         onClick={() => handleResetButton()}
                       >
                         Forgot password
                       </a>
-
-
                       {/* forget password model start */}
                       <div
-  className="modal top fade"
-  id="exampleModal"
-  tabIndex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
-  data-mdb-backdrop="true"
-  data-mdb-keyboard="true"
->
-  <div
-    className="modal-dialog"
-    style={{
-      width: "300px",
-      position: "fixed",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    }}
-  >
-    <div className="modal-content text-center">
-      <div className="modal-header h5 text-white bg-primary justify-content-center">
-        Password Reset
-      </div>
-      <div className="modal-body px-5">
-        <p className="py-2">
-          Enter your email address and we'll send you an
-          email with instructions to reset your password.
-        </p>
-        <div className="form-outline">
-          <input
-            type="email"
-            id="typeEmail"
-            className="form-control my-3"
-            placeholder="Email"
-            name="email"
-            onChange={(event) => {
-              event.preventDefault();
-              setForgetPasswordEmail({
-                ...forgetPasswordEmail,
-                [event.target.name]: event.target.value,
-              });
-            }}
-          />
-        </div>
-        <a
-          onClick={(event) => handleSend(event)}
-          href="#"
-          className="btn btn-primary w-100"
-        >
-          Send
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
+                        className="modal top fade"
+                        id="exampleModal"
+                        tabIndex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                        data-mdb-backdrop="true"
+                        data-mdb-keyboard="true"
+                      >
+                        <div
+                          className="modal-dialog"
+                          style={{
+                            width: "300px",
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                          }}
+                        >
+                          <div className="modal-content text-center">
+                            <div className="modal-header h5 text-white bg-primary justify-content-center">
+                              Password Reset
+                            </div>
+                            <div className="modal-body px-5">
+                              <p className="py-2">
+                                Enter your email address and we'll send you an
+                                email with instructions to reset your password.
+                              </p>
+                              <div className="form-outline">
+                                <input
+                                  type="email"
+                                  id="typeEmail"
+                                  className="form-control my-3"
+                                  placeholder="Email"
+                                  name="email"
+                                  onChange={(event) => {
+                                    event.preventDefault();
+                                    setForgetPasswordEmail({
+                                      ...forgetPasswordEmail,
+                                      [event.target.name]: event.target.value,
+                                    });
+                                  }}
+                                />
+                              </div>
+                              <a
+                                onClick={(event) => handleSend(event)}
+                                href="#"
+                                className="btn btn-primary w-100"
+                              >
+                                Send
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       {/* forget password model end */}
-                      
+
                       <p
-                        className="mb-5 pb-lg-2"
-                        style={{ color: "#393f81" }}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => navigate("/register")}
+                        classNameName="mb-5 pb-lg-2"
+                        style={{ textDecoration: "none"}}
                       >
                         Don't have an account?{" "}
-                        <a style={{ color: "#393f81", cursor: "pointer" }}>
+                        <a onClick={() => navigate("/register")} style={{ color: "#393f81", cursor: "pointer" }}>
                           Register here
                         </a>
                       </p>
-
                       <a href="#!" className="small text-muted">
                         Terms of use.
                       </a>
