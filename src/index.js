@@ -10,6 +10,7 @@ import { SnackbarProvider } from 'notistack';
 import Otp from './componants/OTP/Otp';
 import ResetPassword from './componants/authentication/ResetPassword';
 import PageNotFound from './componants/authentication/PageNotFound';
+import { gapi } from 'gapi-script';
 
 // this is the index file
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,6 +32,14 @@ root.render(
   
   </React.StrictMode>
 );
+
+gapi.load("client:auth2", () => {
+  gapi.client.init({
+    clientId:
+      "*****.apps.googleusercontent.com",
+    plugin_name: "chat",
+  });
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

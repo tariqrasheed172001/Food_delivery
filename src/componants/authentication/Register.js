@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
+import GoogleAuth from "./GoogleAuth";
 
 const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
@@ -9,6 +10,9 @@ const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 function Register() {
   const navigate = useNavigate();
   const [conf, setConf] = useNotification();
+
+  const [flag, setFlag] = useState(false);
+  const [userData, setUserData] = useState("");
 
   const [otp, setOtp] = useState("");
   const [otpFlag, setOtpFlag] = useState(false);
@@ -21,9 +25,13 @@ function Register() {
     phone: "",
   });
 
-  const sendOtp = () =>{
+  const sendOtp = () => {
     axios
-      .post(otpUrl, { phoneNumber: `+91${data.phone}` },{withCredentials:true})
+      .post(
+        otpUrl,
+        { phoneNumber: `+91${data.phone}` },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log(res);
         setOtp(res.data.otp);
@@ -32,7 +40,7 @@ function Register() {
       .catch((error) => {
         console.error("Error sending OTP:", error);
       });
-  }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -42,24 +50,27 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault(); // preventing the default page reload
 
-    // checking if email already exists 
+    // checking if email already exists
 
-    if(data.passwordd === compPassword){
+    if (data.passwordd === compPassword) {
       axios
-      .post(emailExistingUrl, { email: data.email },{withCredentials:true})
-      .then((res) => {
-        console.log(res);
-        sendOtp();
-      })
-      .catch((error) => {
-        console.error("Error checking Existing Url:", error);
-        setConf({msg: error.response.data.message,variant:"warning"});
-      });
-    }else{
+        .post(
+          emailExistingUrl,
+          { email: data.email },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log(res);
+          sendOtp();
+        })
+        .catch((error) => {
+          console.error("Error checking Existing Url:", error);
+          setConf({ msg: error.response.data.message, variant: "warning" });
+        });
+    } else {
       setConf({ msg: "Passwords do NOT match.", variant: "error" });
     }
   };
-
 
   useEffect(() => {
     if (otpFlag)
@@ -69,7 +80,13 @@ function Register() {
           formData: data,
         },
       });
-  }, [otpFlag, otp,navigate]);
+  }, [otpFlag, otp, navigate]);
+
+  useEffect(() => {
+    if (flag) {
+      navigate("/", { state: userData });
+    }
+  }, [flag, navigate]);
 
   return (
     <section
@@ -213,6 +230,11 @@ function Register() {
                           SignUp
                         </button>
                       </div>
+
+                      <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <GoogleAuth setUserData={setUserData} setFlag={setFlag} />
+                      </div>
+
                       <p className="text-center text-muted mt-5 mb-0">
                         Have already an account?{" "}
                         <a
