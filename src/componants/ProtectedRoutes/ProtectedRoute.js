@@ -1,4 +1,4 @@
-import Login from "../authentication/Login";
+import Home from '../Home/Home';
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -16,7 +16,7 @@ function ProtectedRoute() {
     }
   }, []);
 
-  return <div>{auth ? <Outlet /> : <Login />}</div>;
+  return <div>{auth ? <Outlet /> : <Home />}</div>;
 }
 
 export default ProtectedRoute;
