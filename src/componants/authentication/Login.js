@@ -16,8 +16,6 @@ function Login() {
 
   const dispatch = useDispatch();
 
-  const [mailSended, setMailSended] = useState(false);
-
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
@@ -35,6 +33,7 @@ function Login() {
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
           setFlag(true);
+          dispatch({ type: "SET_LOGIN_FLAG", payload: true });
           setUserData(res.data.user);
 
           console.log(res.data.user.name);
@@ -88,13 +87,7 @@ function Login() {
   };
 
   return (
-    <section
-      className="vh-100"
-      style={{
-        backgroundImage:
-          "url('https://img.freepik.com/free-photo/top-view-food-frame-with-copy-space_23-2148723447.jpg?w=1800&t=st=1690031132~exp=1690031732~hmac=18d18e87eb328ede2fcd45f97baa50783672d55f3293e1952d842afb0b3c3884')",
-      }}
-    >
+    <section className="vh-100">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col col-xl-10">
@@ -171,9 +164,12 @@ function Login() {
                           login
                         </button>
                       </div>
-
-                      <GoogleAuth setUserData={setUserData} setFlag={setFlag} />
-
+                      <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <GoogleAuth
+                          setUserData={setUserData}
+                          setFlag={setFlag}
+                        />
+                      </div>
                       <a
                         className="small text-muted"
                         style={{ cursor: "pointer", textDecoration: "none" }}

@@ -4,6 +4,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Login from "./componants/authentication/Login";
 import Register from "./componants/authentication/Register";
+import Landing from "./componants/Home/Landing";
 import Home from "./componants/Home/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
@@ -16,6 +17,7 @@ import store from "./reducers/otp";
 import { Provider } from "react-redux";
 import ProtectedResetPassword from "./componants/ProtectedRoutes/ProtectedResetPassword";
 import ProtectedOtpRoute from "./componants/ProtectedRoutes/ProtectedOtpRoute";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -27,8 +29,7 @@ root.render(
           <Routes>
             {/* Protected from unAuthurised user */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/Landing" element={<Landing />} />
             </Route>
             {/* if the reset password link is not sended then these are protected */}
             <Route element={<ProtectedResetPassword />}>
@@ -42,6 +43,9 @@ root.render(
             <Route element={<ProtectedOtpRoute />}>
               <Route path="/send-otp" element={<Otp />} />
             </Route>
+
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/page-not-found" element={<PageNotFound />} />
