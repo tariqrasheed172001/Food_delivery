@@ -32,7 +32,7 @@ function Register() {
     axios
       .post(
         otpUrl,
-        { phoneNumber: `+91${data.phone}` },
+        { phoneNumber: `+91${data.phone}`, email: `${data.email}` },
         { withCredentials: true }
       )
       .then((res) => {
