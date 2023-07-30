@@ -4,6 +4,7 @@ import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import Cookies from "js-cookie";
 import GoogleAuth from "./GoogleAuth";
+import { useDispatch } from "react-redux";
 
 const url = `${process.env.REACT_APP_API}/login`;
 
@@ -12,6 +13,10 @@ function Login() {
   const [flag, setFlag] = useState(false);
   const [userData, setUserData] = useState("");
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState({ email: "" });
+
+  const dispatch = useDispatch();
+
+  const [mailSended, setMailSended] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,8 +49,6 @@ function Login() {
       });
   };
 
-  
-
   const handleSubmit = (event) => {
     event.preventDefault();
     login();
@@ -76,6 +79,7 @@ function Login() {
           msg: "Link has been sent. Check your inbox",
           variant: "success",
         });
+        dispatch({ type: "SET_RESET_PASSWORD_LINK_FLAG", payload: true });
         navigate("/login");
       })
       .catch((error) => {
@@ -237,10 +241,13 @@ function Login() {
 
                       <p
                         classNameName="mb-5 pb-lg-2"
-                        style={{ textDecoration: "none"}}
+                        style={{ textDecoration: "none" }}
                       >
                         Don't have an account?{" "}
-                        <a onClick={() => navigate("/register")} style={{ color: "#393f81", cursor: "pointer" }}>
+                        <a
+                          onClick={() => navigate("/register")}
+                          style={{ color: "#393f81", cursor: "pointer" }}
+                        >
                           Register here
                         </a>
                       </p>

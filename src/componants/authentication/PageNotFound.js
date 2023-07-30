@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function PageNotFound() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div>
       <div className="page-wrap d-flex flex-row align-items-center">
@@ -13,7 +13,7 @@ function PageNotFound() {
               <div className="mb-4 lead">
                 The page you are looking for was not found.
               </div>
-              <a onClick={() => navigate('/login')} className="btn btn-link">
+              <a onClick={() => navigate("/login")} className="btn btn-link">
                 Back to Home
               </a>
             </div>

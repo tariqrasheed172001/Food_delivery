@@ -15,7 +15,7 @@ function ResetPassword() {
     confirmPassword: "",
   });
 
-  const [passwordUpdation,setPasswordUpdation] = useState(false);
+  const [passwordUpdation, setPasswordUpdation] = useState(false);
 
   const verifyResetToken = () => {
     try {
@@ -35,31 +35,32 @@ function ResetPassword() {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    if(password.newPassword === password.confirmPassword){
+    if (password.newPassword === password.confirmPassword) {
       try {
         axios
-          .post(`${process.env.REACT_APP_API}/update-password/${user_id}/${token}`,password)
+          .post(
+            `${process.env.REACT_APP_API}/update-password/${user_id}/${token}`,
+            password
+          )
           .then((res) => {
-            if(res.status === 201){
+            if (res.status === 201) {
               setConf({ msg: res?.data?.message, variant: "warning" });
-            }else{
+            } else {
               setConf({ msg: res?.data?.message, variant: "success" });
               setPasswordUpdation(true);
             }
-            
           });
       } catch (error) {
         console.error("Error verifying reset token:", error);
       }
-    }else{
+    } else {
       setConf({ msg: "Passwords do NOT match.", variant: "error" });
     }
   };
 
-  useEffect(()=>{
-    if(passwordUpdation)
-      navigate('/login');
-  },[passwordUpdation]);
+  useEffect(() => {
+    if (passwordUpdation) navigate("/login");
+  }, [passwordUpdation]);
 
   return (
     <div>

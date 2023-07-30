@@ -3,12 +3,15 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import GoogleAuth from "./GoogleAuth";
+import { useDispatch, useSelector } from "react-redux";
 
 const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [conf, setConf] = useNotification();
 
   const [flag, setFlag] = useState(false);
@@ -35,6 +38,7 @@ function Register() {
       .then((res) => {
         console.log(res);
         setOtp(res.data.otp);
+        dispatch({ type: "SET_OTP_FLAG", payload: true });
         setOtpFlag(true);
       })
       .catch((error) => {
@@ -232,7 +236,10 @@ function Register() {
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <GoogleAuth setUserData={setUserData} setFlag={setFlag} />
+                        <GoogleAuth
+                          setUserData={setUserData}
+                          setFlag={setFlag}
+                        />
                       </div>
 
                       <p className="text-center text-muted mt-5 mb-0">
