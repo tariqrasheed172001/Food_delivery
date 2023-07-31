@@ -95,11 +95,7 @@ function Register() {
   return (
     <section
       className="vh-100"
-      style={{
-        background:
-          "linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2) ), url('https://img.freepik.com/free-photo/top-view-circular-food-frame_23-2148723455.jpg?w=1800&t=st=1690031370~exp=1690031970~hmac=c12c351c50673109e0fe0f99893e9f3b6a09668e1da503d7288cb8e82bc47f8a')",
-        backgroundSize: "contain",
-      }}
+      
     >
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
