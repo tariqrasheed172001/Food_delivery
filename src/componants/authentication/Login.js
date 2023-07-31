@@ -88,11 +88,11 @@ function Login() {
 
   return (
     <section className="vh-100">
-      <div className="container py-5 h-100">
+      <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col col-xl-10">
+        <div className="col-lg-12 col-xl-11">
             <div className="card" style={{ borderRadius: "1rem" }}>
-              <div className="row g-0">
+              <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5 d-none d-md-block">
                   <img
                     src="https://images.unsplash.com/photo-1654922207993-2952fec328ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hlZnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"
@@ -122,13 +122,13 @@ function Login() {
                       >
                         Sign into your account
                       </h5>
-                      <div className="form-outline mb-5">
+                      <div className="form-outline flex-fill mb-4">
                         <input
                           required
                           placeholder="Email address"
                           type="email"
                           id="form2Example17"
-                          className="form-control form-control-lg"
+                          className="form-control"
                           name="email"
                           onChange={(event) => {
                             event.preventDefault();
@@ -139,13 +139,13 @@ function Login() {
                           }}
                         />
                       </div>
-                      <div className="form-outline mb-5">
+                      <div className="form-outline flex-fill mb-4">
                         <input
                           required
                           placeholder="Password"
                           type="password"
                           id="form2Example27"
-                          className="form-control form-control-lg"
+                          className="form-control"
                           name="passwordd"
                           onChange={(event) => {
                             event.preventDefault();
@@ -164,7 +164,7 @@ function Login() {
                           login
                         </button>
                       </div>
-                      <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <div className="form-outline flex-fill mb-4">
                         <GoogleAuth
                           setUserData={setUserData}
                           setFlag={setFlag}
