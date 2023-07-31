@@ -9,13 +9,12 @@ function Otp() {
 
   const [conf, setConf] = useNotification();
   const [flag, setFlag] = useState(false);
+  const codeLength = [1, 2, 3, 4, 5, 6];
 
   const receivedData = location.state;
 
   const navigate = useNavigate();
 
-  // const url = "http://localhost:8000/register";
-  // const otpUrl = "http://localhost:8000/send-otp";
   const url = `${process.env.REACT_APP_API}/register`;
   const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 
@@ -28,7 +27,10 @@ function Otp() {
     axios
       .post(
         otpUrl,
-        { phoneNumber: `+91${receivedData?.formData?.phone}` },
+        {
+          phoneNumber: `+91${receivedData?.formData?.phone}`,
+          email: `${receivedData?.formData?.email}`,
+        },
         { withCredentials: true }
       )
       .then((res) => {
@@ -69,6 +71,8 @@ function Otp() {
 
   let phoneNumber = receivedData?.formData?.phone;
   phoneNumber = phoneNumber?.replace(/.(?=.{4})/g, "*"); //regular expression to mask firs 6 digits of a number.
+  let email = receivedData?.formData?.email;
+  email = email?.replace(/.(?=.{16})/g, "*");
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -112,13 +116,14 @@ function Otp() {
               <span className="success">
                 A code has been {resended ? " resended" : " sent"} to
               </span>
-              <small className="success">*******{phoneNumber}</small>
+              <small className="success"> *******{phoneNumber} </small> <br />
+              <span className="success"> and {email} </span>
             </div>
             <div
               id="otp"
               className="inputs d-flex flex-row justify-content-center mt-2"
             >
-              {[0, 1, 2, 3].map((index) => (
+              {codeLength.map((index) => (
                 <input
                   key={index}
                   ref={(ref) => (inputsRef.current[index] = ref)}

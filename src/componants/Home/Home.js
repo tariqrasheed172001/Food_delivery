@@ -18,7 +18,6 @@ function Home() {
   useEffect(() => {
     // Check if a token exists in the cookies
     const token = Cookies.get("token");
-
     if (token) {
       // You may want to check if the token is expired here
       // For simplicity, we'll assume the token is valid for now
