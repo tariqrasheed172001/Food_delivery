@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Home from '../Home/Home';
+import Home from "../Pages/Home";
 import { Outlet } from "react-router-dom";
 
 function ProtectedOtproute() {

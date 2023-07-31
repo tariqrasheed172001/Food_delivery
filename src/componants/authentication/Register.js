@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
-function Register() {
+function Register({setLoading}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault(); // preventing the default page reload
-
+    setLoading(true);
     // checking if email already exists
 
     if (data.passwordd === compPassword) {
@@ -66,12 +66,15 @@ function Register() {
         .then((res) => {
           console.log(res);
           sendOtp();
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error checking Existing Url:", error);
+          setLoading(false);
           setConf({ msg: error.response.data.message, variant: "warning" });
         });
     } else {
+      setLoading(false);
       setConf({ msg: "Passwords do NOT match.", variant: "error" });
     }
   };
@@ -91,6 +94,13 @@ function Register() {
       navigate("/", { state: userData });
     }
   }, [flag, navigate]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false); 
+    }, 1000); 
+  }, [setLoading]);
 
   return (
     <section
