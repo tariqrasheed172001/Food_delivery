@@ -3,21 +3,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-function Landing() {
+function Landing({setLoading}) {
   const [loggedIn, setLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const [conf, setConf] = useNotification();
 
   const location = useLocation();
 
-  const receivedData = location.state;
+  const receivedData = useSelector((state)=> state.userData);
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     // Check if a token exists in the cookies
+    console.log(receivedData);
     const token = Cookies.get("token");
     if (token) {
       // You may want to check if the token is expired here
@@ -26,8 +27,16 @@ function Landing() {
     } else {
       setLoggedIn(false);
     }
+   
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false); 
+    }, 1000); 
+  }, [setLoading]);
+  
   const handleLogout = (event) => {
     Cookies.remove("token");
     setLoggedIn(false);

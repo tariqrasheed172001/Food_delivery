@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import useNotification from "../snackbars/SnackBar";
 
-function ResetPassword() {
+function ResetPassword({setLoading}) {
   const { user_id, token } = useParams();
 
   const navigate = useNavigate();
@@ -61,6 +61,13 @@ function ResetPassword() {
   useEffect(() => {
     if (passwordUpdation) navigate("/login");
   }, [passwordUpdation]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false); 
+    }, 1000); 
+  }, [setLoading]);
 
   return (
     <div>
