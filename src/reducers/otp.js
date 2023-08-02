@@ -1,10 +1,21 @@
 // store.js
-import { legacy_createStore as createStore } from "redux";
+import { legacy_createStore as createStore,applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+
 
 const initialState = {
   otpFlag: false,
   resetPasswordFlag: false,
   loginFlag: false,
+  userData: {},
 };
 
 const FlagReducer = (state = initialState, action) => {
@@ -14,12 +25,20 @@ const FlagReducer = (state = initialState, action) => {
     case "SET_OTP_FLAG":
       return { ...state, otpFlag: action.payload };
     case "SET_RESET_PASSWORD_LINK_FLAG":
-      return { ...state, otpFlag: action.payload };
+      return { ...state, resetPasswordFlag: action.payload };
+    case "SET_USER_DATA":
+      console.log("SET_USER_DATA action dispatched:", action.payload);
+      return { ...state, userData: action.payload};
     default:
       return state;
   }
 };
 
-const store = createStore(FlagReducer);
+const persistedReducer = persistReducer(persistConfig,FlagReducer,applyMiddleware(thunk));
 
-export default store;
+
+const store = createStore(persistedReducer);
+
+let persistor = persistStore(store);
+
+export {store,persistor};

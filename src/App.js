@@ -9,17 +9,15 @@ import Otp from "./componants/OTP/Otp";
 import ResetPassword from "./componants/authentication/ResetPassword";
 import PageNotFound from "./componants/authentication/PageNotFound";
 import ProtectedRoute from "./componants/ProtectedRoutes/ProtectedRoute";
-import store from "./reducers/otp";
-import { Provider } from "react-redux";
 import ProtectedResetPassword from "./componants/ProtectedRoutes/ProtectedResetPassword";
 import ProtectedOtpRoute from "./componants/ProtectedRoutes/ProtectedOtpRoute";
 import ProgressBar from './componants/ProgressBar/ProgressBar';
+import UserProfile from './componants/userProfile/UserProfile';
 
 
 function App() {
     const [loading,setLoading] = useState(false);
   return (
-    <Provider store={store}>
       <SnackbarProvider
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
@@ -29,6 +27,7 @@ function App() {
             {/* Protected from unAuthurised user */}
             <Route element={<ProtectedRoute />}>
               <Route path="/landing" element={<Landing setLoading={setLoading} />} />
+              <Route path="/user-profile" element={<UserProfile setLoading={setLoading} />} />
             </Route>
             {/* if the reset password link is not sended then these are protected */}
             <Route element={<ProtectedResetPassword />}>
@@ -45,13 +44,15 @@ function App() {
 
             <Route path="/" element={<Home  />} />
             <Route path="/home" element={<Home  />} />
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register setLoading={setLoading} />} />
+
+            
             <Route path="/page-not-found" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>
-    </Provider>
   )
 }
 

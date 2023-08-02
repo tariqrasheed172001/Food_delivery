@@ -41,7 +41,7 @@ function NavBar() {
               </li>
               {auth ? (
                 <li className="nav-item">
-                  <a className="nav-link" href="/landing">
+                  <a className="nav-link" href="/user-profile">
                     Profile
                   </a>
                 </li>
