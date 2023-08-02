@@ -6,7 +6,6 @@ import "./otp.css";
 
 function Otp({setLoading}) {
   const location = useLocation();
-
   const [conf, setConf] = useNotification();
   const [flag, setFlag] = useState(false);
   const codeLength = [1, 2, 3, 4, 5, 6];

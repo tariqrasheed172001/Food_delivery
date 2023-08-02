@@ -1,11 +1,13 @@
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setFlagg } from "../../Redux/Actions/flagAction";
 
 function UserProfile({setLoading}) {
   const userData = useSelector((state) => state.userData);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let imageUrl = userData?.imageUrl;
 
   const handleLogout = (event) => {
@@ -16,6 +18,8 @@ function UserProfile({setLoading}) {
         setLoading(false);
         navigate('/');
       }, 2000);
+    localStorage.clear('userData');
+    dispatch(setFlagg(false));
   };
 
   useEffect(()=>{

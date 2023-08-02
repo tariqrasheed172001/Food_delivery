@@ -7,13 +7,14 @@ import GoogleAuth from "../GoogleAuth";
 import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
 import ProgressBar from "../../ProgressBar/ProgressBar";
+import { setUserData } from "../../../Redux/Actions/userDataActions";
+import { setFlagg } from "../../../Redux/Actions/flagAction";
 
 const url = `${process.env.REACT_APP_API}/login`;
 
 function Login() {
   const [conf, setConf] = useNotification();
   const [flag, setFlag] = useState(false);
-  const [userData, setUserData] = useState("");
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState({ email: "" });
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -37,8 +38,7 @@ function Login() {
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
           setFlag(true);
-          setUserData(res.data.user);
-          dispatch({ type: "SET_USER_DATA", payload: res.data.user });
+          dispatch(setUserData(res.data.user));
           setLoading(false);
           Cookies.set("token", res.data.token, { expires: 1 });
         } else if (res.status === 201) {
@@ -59,7 +59,7 @@ function Login() {
 
   useEffect(() => {
     if (flag) {
-      navigate("/", { state: userData });
+      navigate("/");
     }
   }, [flag, navigate]);
 
@@ -82,7 +82,7 @@ function Login() {
           variant: "success",
         });
         setLoading(false);
-        dispatch({ type: "SET_RESET_PASSWORD_LINK_FLAG", payload: true });
+        dispatch(setFlagg(true));
         navigate("/login");
       })
       .catch((error) => {
@@ -179,10 +179,7 @@ function Login() {
                           </button>
                         </div>
                         <div className="form-outline flex-fill mb-4">
-                          <GoogleAuth
-                            setUserData={setUserData}
-                            setFlag={setFlag}
-                          />
+                          <GoogleAuth setFlag={setFlag} />
                         </div>
                         <a
                           className="small text-muted"

@@ -44,11 +44,8 @@ function App() {
 
             <Route path="/" element={<Home  />} />
             <Route path="/home" element={<Home  />} />
-
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register setLoading={setLoading} />} />
-
-            
+            <Route path="/register" element={<Register setLoading={setLoading} />} />            
             <Route path="/page-not-found" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>

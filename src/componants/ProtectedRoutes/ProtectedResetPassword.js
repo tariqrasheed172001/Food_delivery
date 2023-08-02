@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import Home from "../Pages/Home";
 
 function ProtectedResetPassword() {
-  const resetPasswordFlag = useSelector((state) => state.resetPasswordFlag);
-  return <div>{resetPasswordFlag ? <Outlet /> : <Home />}</div>;
+  const flag = useSelector((state) => state.flag);
+  return <div>{flag ? <Outlet /> : <Home />}</div>;
 }
 
 export default ProtectedResetPassword;

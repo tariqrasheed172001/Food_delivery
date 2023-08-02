@@ -4,8 +4,8 @@ import Home from "../Pages/Home";
 import { Outlet } from "react-router-dom";
 
 function ProtectedOtproute() {
-  const otpFlag = useSelector((state) => state.otpFlag);
-  return <div>{otpFlag ? <Outlet /> : <Home />}</div>;
+  const flag = useSelector((state) => state.flag);
+  return <div>{flag ? <Outlet /> : <Home />}</div>;
 }
 
 export default ProtectedOtproute;
