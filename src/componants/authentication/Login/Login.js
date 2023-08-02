@@ -4,8 +4,8 @@ import axios from "axios";
 import useNotification from "../../snackbars/SnackBar";
 import Cookies from "js-cookie";
 import GoogleAuth from "../GoogleAuth";
-import { useDispatch } from "react-redux";
-import './login.css';
+import { useDispatch, useSelector } from "react-redux";
+import "./login.css";
 import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const url = `${process.env.REACT_APP_API}/login`;
@@ -19,6 +19,8 @@ function Login() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+  const data = useSelector((state) => state.userData);
+  console.log(data);
 
   axios.defaults.withCredentials = true;
 
@@ -27,19 +29,16 @@ function Login() {
     passwordd: "",
   });
 
-  const login = () => {
+  const login = async () => {
     setLoading(true);
-    axios
+    await axios
       .post(url, formData, { withCredentials: true })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
           setFlag(true);
-          dispatch({ type: "SET_LOGIN_FLAG", payload: true });
           setUserData(res.data.user);
-
-          console.log(res.data.user.name);
+          dispatch({ type: "SET_USER_DATA", payload: res.data.user });
           setLoading(false);
           Cookies.set("token", res.data.token, { expires: 1 });
         } else if (res.status === 201) {
@@ -57,14 +56,12 @@ function Login() {
     event.preventDefault();
     login();
   };
-  console.log(userData);
 
   useEffect(() => {
     if (flag) {
       navigate("/", { state: userData });
     }
   }, [flag, navigate]);
-
 
   const handleResetButton = () => {
     // Initialize the modal when the component mounts
@@ -97,15 +94,13 @@ function Login() {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false); 
-    }, 1000); 
+      setLoading(false);
+    }, 1000);
   }, [setLoading]);
 
   return (
     <>
-      {loading && (
-        <ProgressBar />
-      )}
+      {loading && <ProgressBar />}
       <section className="vh-100">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

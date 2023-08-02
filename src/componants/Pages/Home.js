@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import NavBar from "../navBar/NavBar";
 import "./home.css";
 import SearchBar from "../searchBar/SearchBar";
+import { useSelector } from "react-redux";
 
 
 function Home() {
+  const data = useSelector((state) => state.userData);
+  console.log("home page data",data);
   return (
   <div>
      <div className="home-container ">
