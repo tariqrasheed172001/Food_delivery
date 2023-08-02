@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import {store,persistor} from "./reducers/otp";
+import {store,persistor} from './Redux/ReduxStore';
 
 import { PersistGate } from "redux-persist/integration/react";
 

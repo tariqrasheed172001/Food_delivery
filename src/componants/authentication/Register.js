@@ -3,12 +3,13 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import useNotification from "../snackbars/SnackBar";
 import GoogleAuth from "./GoogleAuth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setFlagg } from "../../Redux/Actions/flagAction";
 
 const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
 const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
-function Register({setLoading}) {
+function Register({ setLoading }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,7 +39,7 @@ function Register({setLoading}) {
       .then((res) => {
         console.log(res);
         setOtp(res.data.otp);
-        dispatch({ type: "SET_OTP_FLAG", payload: true });
+        dispatch(setFlagg(true));
         setOtpFlag(true);
       })
       .catch((error) => {
@@ -98,15 +99,12 @@ function Register({setLoading}) {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false); 
-    }, 1000); 
+      setLoading(false);
+    }, 1000);
   }, [setLoading]);
 
   return (
-    <section
-      className="vh-100"
-      
-    >
+    <section className="vh-100">
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-lg-12 col-xl-11">
@@ -242,10 +240,7 @@ function Register({setLoading}) {
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <GoogleAuth
-                          setUserData={setUserData}
-                          setFlag={setFlag}
-                        />
+                        <GoogleAuth setFlag={setFlag} />
                       </div>
 
                       <p className="text-center text-muted mt-5 mb-0">
