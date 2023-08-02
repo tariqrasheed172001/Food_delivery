@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import useNotification from "../snackbars/SnackBar";
+import { useDispatch } from "react-redux";
+import { setFlagg } from "../../Redux/Actions/flagAction";
 
-function ResetPassword() {
+function ResetPassword({ setLoading }) {
   const { user_id, token } = useParams();
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [conf, setConf] = useNotification();
   const [verificationStatus, setVerificationStatus] = useState("");
@@ -47,6 +50,7 @@ function ResetPassword() {
               setConf({ msg: res?.data?.message, variant: "warning" });
             } else {
               setConf({ msg: res?.data?.message, variant: "success" });
+              dispatch(setFlagg(false));
               setPasswordUpdation(true);
             }
           });
@@ -61,6 +65,13 @@ function ResetPassword() {
   useEffect(() => {
     if (passwordUpdation) navigate("/login");
   }, [passwordUpdation]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [setLoading]);
 
   return (
     <div>

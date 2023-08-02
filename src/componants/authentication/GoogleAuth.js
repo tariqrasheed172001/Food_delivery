@@ -2,12 +2,17 @@ import React from "react";
 import GoogleLogin from "@leecheuk/react-google-login";
 import GoogleButton from "react-google-button";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../Redux/Actions/userDataActions";
 
-function GoogleAuth({ setUserData, setFlag }) {
+
+function GoogleAuth({ setFlag }) {
+
+  const dispatch = useDispatch();
   const onSuccess = (res) => {
     console.log(res);
     Cookies.set("token", res.accessToken, { expires: 1 });
-    setUserData(res.profileObj);
+    dispatch(setUserData(res.profileObj));
     setFlag(true);
   };
 

@@ -2,56 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import Login from "./componants/authentication/Login";
-import Register from "./componants/authentication/Register";
-import Landing from "./componants/Home/Landing";
-import Home from "./componants/Home/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
-import Otp from "./componants/OTP/Otp";
-import ResetPassword from "./componants/authentication/ResetPassword";
-import PageNotFound from "./componants/authentication/PageNotFound";
-import { gapi } from "gapi-script";
-import ProtectedRoute from "./componants/ProtectedRoutes/ProtectedRoute";
-import store from "./reducers/otp";
+import { store, persistor } from "./Redux/ReduxStore";
+
+import { PersistGate } from "redux-persist/integration/react";
+
 import { Provider } from "react-redux";
-import ProtectedResetPassword from "./componants/ProtectedRoutes/ProtectedResetPassword";
-import ProtectedOtpRoute from "./componants/ProtectedRoutes/ProtectedOtpRoute";
+
+import { gapi } from "gapi-script";
+
+import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <SnackbarProvider
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <BrowserRouter>
-          <Routes>
-            {/* Protected from unAuthurised user */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/Landing" element={<Landing />} />
-            </Route>
-            {/* if the reset password link is not sended then these are protected */}
-            <Route element={<ProtectedResetPassword />}>
-              <Route
-                path="reset-password/:user_id/:token"
-                element={<ResetPassword />}
-              />
-              <Route path="reset-password" />
-            </Route>
-            {/* if otp is not sended then this is protected */}
-            <Route element={<ProtectedOtpRoute />}>
-              <Route path="/send-otp" element={<Otp />} />
-            </Route>
-
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/page-not-found" element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </SnackbarProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

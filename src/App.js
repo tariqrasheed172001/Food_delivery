@@ -8,12 +8,12 @@ import { SnackbarProvider } from "notistack";
 import Otp from "./componants/OTP/Otp";
 import ResetPassword from "./componants/authentication/ResetPassword";
 import PageNotFound from "./componants/authentication/PageNotFound";
-import ProtectedRoute from "./componants/ProtectedRouteLogics/ProtectedRoute";
-import ProtectedResetPassword from "./componants/ProtectedRouteLogics/ResetPassword";
-import ProtectedOtpRoute from "./componants/ProtectedRouteLogics/OtpRoute";
+import ProtectedRoute from "./componants/RouteProtectionLogics/ProtectedRoute";
+import ProtectedResetPassword from "./componants/RouteProtectionLogics/ResetPassword";
+import ProtectedOtpRoute from "./componants/RouteProtectionLogics/OtpRoute";
 import ProgressBar from './componants/ProgressBar/ProgressBar';
 import UserProfile from './componants/userProfile/UserProfile';
-import LoginRegister from './componants/ProtectedRouteLogics/LoginRegister';
+import LoginRegister from './componants/RouteProtectionLogics/LoginRegister';
 
 
 function App() {
@@ -46,10 +46,10 @@ function App() {
             <Route path="/" element={<Home  />} />
             <Route path="/home" element={<Home  />} />
 
-          <Route element={<LoginRegister />} >
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register setLoading={setLoading} />} />            
-          </Route>
+            <Route element={<LoginRegister />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register setLoading={setLoading} />} />            
+            </Route>
 
             <Route path="/page-not-found" element={<PageNotFound />} />
           </Routes>
@@ -57,3 +57,5 @@ function App() {
       </SnackbarProvider>
   )
 }
+
+export default App

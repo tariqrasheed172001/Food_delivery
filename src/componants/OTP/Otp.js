@@ -4,9 +4,8 @@ import useNotification from "../snackbars/SnackBar";
 import axios from "axios";
 import "./otp.css";
 
-function Otp() {
+function Otp({setLoading}) {
   const location = useLocation();
-
   const [conf, setConf] = useNotification();
   const [flag, setFlag] = useState(false);
   const codeLength = [1, 2, 3, 4, 5, 6];
@@ -24,6 +23,7 @@ function Otp() {
   const inputsRef = useRef([]);
 
   const sendOtpAgain = () => {
+    setLoading(true);
     axios
       .post(
         otpUrl,
@@ -37,20 +37,24 @@ function Otp() {
         console.log(res);
         receivedData.otp = res.data.otp;
         setResended(true);
+        setLoading(false);
         setConf({ msg: "A code has been resended", variant: "success" });
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error sending OTP:", error);
       });
   };
 
   const registerUser = () => {
+    setLoading(true);
     axios
       .post(url, receivedData?.formData, { withCredentials: true })
       .then((res) => {
         console.log(res);
         setConf({ msg: res.data.message, variant: "success" });
         setFlag(true);
+        setLoading(false);
       });
   };
 
@@ -94,6 +98,7 @@ function Otp() {
   useEffect(() => {
     if (flag) navigate("/login");
   }, [flag]);
+
   return (
     <div
       style={{
