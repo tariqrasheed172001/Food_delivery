@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import axios from "axios";
+import useNotification from "../../../snackbars/SnackBar";
+import { useNavigate } from "react-router-dom";
 
-function Timing({ handleNextPage, handlePrevPage, classes }) {
+function Timing({
+  handleNextPage,
+  handlePrevPage,
+  classes,
+  setRestaurantData,
+  restaurantData,
+  setLoading,
+}) {
   const [weekdays, setWeekdays] = useState({
     Monday: true,
     Tuesday: true,
@@ -16,6 +26,10 @@ function Timing({ handleNextPage, handlePrevPage, classes }) {
     Saturday: true,
     Sunday: true,
   });
+  const [opensAt, setOpensAt] = useState(dayjs("2022-04-17T15:30"));
+  const [closesAt, setClosesAt] = useState(dayjs("2022-04-17T15:30"));
+  const navigate = useNavigate();
+  const [flag,setFlag] = useState(false);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -24,6 +38,77 @@ function Timing({ handleNextPage, handlePrevPage, classes }) {
       [name]: checked,
     }));
   };
+
+  useEffect(() => {
+    const weekdaysString = Object.keys(weekdays)
+      .filter((day) => weekdays[day]) // Filter only the true (selected) weekdays
+      .join(",");
+
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      timings: {
+        ...prevData.timings,
+        working_days: weekdaysString,
+      },
+    }));
+  }, [weekdays]);
+
+  const handleOpenChange = (newTime) => {
+    setOpensAt(newTime);
+    let hour = newTime.hour(); // Get the hour
+    if (hour > 12) hour -= 12;
+    const minutes = newTime.minute(); // Get the minutes
+    const amPm = newTime.format("A"); // Get the AM/PM format
+    const openingTime = `${hour}:${minutes} ${amPm}`;
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      timings: {
+        ...prevData.timings,
+        opens_at: openingTime,
+      },
+    }));
+  };
+  const hanldeCloseChange = (newTime) => {
+    setClosesAt(newTime);
+    let hour = newTime.hour(); // Get the hour
+    if (hour > 12) hour -= 12;
+    const minutes = newTime.minute(); // Get the minutes
+    const amPm = newTime.format("A"); // Get the AM/PM format
+    const closingTime = `${hour}:${minutes} ${amPm}`;
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      timings: {
+        ...prevData.timings,
+        closes_at: closingTime,
+      },
+    }));
+  };
+
+  const [conf, setConf] = useNotification();
+  const url = `${process.env.REACT_APP_API}/add-restaurant`;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    await axios
+      .post(url, restaurantData, { withCredentials: true })
+      .then((res) => {
+        setConf({ msg: res.data.message, variant: "success" });
+        console.log(res);
+        setFlag(true);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setConf({ msg: "error while adding restaurant", variant: "error" });
+        setLoading(false);
+      });
+  };
+
+  useEffect(()=>{
+    if(flag)
+      navigate('/');
+  },[flag]);
 
   return (
     <section className="vh-100">
@@ -37,19 +122,23 @@ function Timing({ handleNextPage, handlePrevPage, classes }) {
                     <form method="POST">
                       <h2>Restaurant timings</h2>
                       <p className="small text-muted">
-                        Select the opening ours and working days. 
+                        Select the opening ours and working days.
                       </p>
                       <div className="form-outline flex-fill mb-4">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DemoContainer components={["MobileTimePicker"]}>
                             <DemoItem label="Opens at">
                               <MobileTimePicker
-                                defaultValue={dayjs("2022-04-17T15:30")}
+                                required
+                                value={opensAt}
+                                onChange={handleOpenChange}
                               />
                             </DemoItem>
                             <DemoItem label="Closes at">
                               <MobileTimePicker
-                                defaultValue={dayjs("2022-04-17T15:30")}
+                                required
+                                value={closesAt}
+                                onChange={hanldeCloseChange}
                               />
                             </DemoItem>
                           </DemoContainer>
@@ -58,62 +147,72 @@ function Timing({ handleNextPage, handlePrevPage, classes }) {
                       <div className="form-outline flex-fill mb-4">
                         <div className="container">
                           <h3>Working days</h3>
-                          <p className="small text-muted" >Do not forget to uncheck the off days!</p>
+                          <p className="small text-muted">
+                            Do not forget to uncheck the off days!
+                          </p>
                           <div className="row">
                             <div className="col-md-6">
-                              {Object.keys(weekdays).slice(0, 4).map((day) => (
-                                <div key={day} className="form-check">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id={`checkbox-${day}`}
-                                    name={day}
-                                    checked={weekdays[day]}
-                                    onChange={handleCheckboxChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`checkbox-${day}`}
-                                  >
-                                    {day}
-                                  </label>
-                                </div>
-                              ))}
+                              {Object.keys(weekdays)
+                                .slice(0, 4)
+                                .map((day) => (
+                                  <div key={day} className="form-check">
+                                    <input
+                                      type="checkbox"
+                                      className="form-check-input"
+                                      id={`checkbox-${day}`}
+                                      name={day}
+                                      checked={weekdays[day]}
+                                      onChange={handleCheckboxChange}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`checkbox-${day}`}
+                                    >
+                                      {day}
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                             <div className="col-md-6">
-                              {Object.keys(weekdays).slice(4).map((day) => (
-                                <div key={day} className="form-check">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id={`checkbox-${day}`}
-                                    name={day}
-                                    checked={weekdays[day]}
-                                    onChange={handleCheckboxChange}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`checkbox-${day}`}
-                                  >
-                                    {day}
-                                  </label>
-                                </div>
-                              ))}
+                              {Object.keys(weekdays)
+                                .slice(4)
+                                .map((day) => (
+                                  <div key={day} className="form-check">
+                                    <input
+                                      type="checkbox"
+                                      className="form-check-input"
+                                      id={`checkbox-${day}`}
+                                      name={day}
+                                      checked={weekdays[day]}
+                                      onChange={handleCheckboxChange}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`checkbox-${day}`}
+                                    >
+                                      {day}
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className={classes.navigation}>
-                            <Button className={classes.button} variant="primary" onClick={handlePrevPage}>
-                              Previous
-                            </Button>
-                            <Button
-                              variant="success"
-                              onClick={() => alert("Form submitted!")}
-                            >
-                              Submit
-                            </Button>
-                          </div>
+                        <Button
+                          className={classes.button}
+                          variant="primary"
+                          onClick={handlePrevPage}
+                        >
+                          Previous
+                        </Button>
+                        <Button
+                          variant="success"
+                          onClick={(event) => handleSubmit(event)}
+                        >
+                          Submit
+                        </Button>
+                      </div>
                     </form>
                   </div>
                 </div>

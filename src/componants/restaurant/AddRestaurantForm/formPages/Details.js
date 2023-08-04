@@ -1,7 +1,22 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-function Details({handleNextPage,handlePrevPage,classes}) {
+function Details({
+  handleNextPage,
+  classes,
+  setRestaurantData,
+  restaurantData,
+}) {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      restaurant: {
+        ...prevData.restaurant,
+        [name]: value,
+      },
+    }));
+  };
   return (
     <section className="vh-100">
       <div className="container h-100">
@@ -24,6 +39,7 @@ function Details({handleNextPage,handlePrevPage,classes}) {
                           id="form2Example17"
                           className="form-control"
                           name="name"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-outline flex-fill mb-4">
@@ -34,17 +50,7 @@ function Details({handleNextPage,handlePrevPage,classes}) {
                           id="form2Example27"
                           className="form-control"
                           name="address"
-                        />
-                      </div>
-                      <div className="form-outline flex-fill mb-4">
-                        <input
-                          required
-                          placeholder="Contact"
-                          type="number"
-                          pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                          id="form3Example4cd"
-                          className="form-control"
-                          name="phone"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className={classes.navigation}>

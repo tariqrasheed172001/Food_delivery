@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 import OwnerDetails from "./formPages/OwnerDetails";
 import RestaurantDetails from "./formPages/Details";
 import RestaurantContact from "./formPages/Contact";
@@ -21,14 +21,32 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     textAlign: "center",
   },
-  button:{
-    marginRight:20,
+  button: {
+    marginRight: 20,
   },
 }));
 
-const AddRestaurantForm = () => {
+const AddRestaurantForm = ({ setLoading }) => {
   const classes = useStyles();
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [restaurantData, setRestaurantData] = useState({
+    restaurant: {
+      name: "",
+      address:"",
+      phone: "",
+    },
+    owner: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+    timings: {
+      opens_at: "",
+      closes_at: "",
+      working_days: "",
+    },
+  });
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -38,33 +56,57 @@ const AddRestaurantForm = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
+  console.log(restaurantData);
+
   return (
     <div className={classes.formContainer}>
-      {/* Page 1 */}
-      <div
-        className={currentPage === 1 ? classes.activePage : classes.formPage}
-      >
-        <RestaurantDetails handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} classes={classes} />
-      </div>
-      {/* Page 2 */}
-      <div
-        className={currentPage === 2 ? classes.activePage : classes.formPage}
-      >
-        <RestaurantContact handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} classes={classes} />
-      </div>
+        {/* Restaurant Details */}
+        <div
+          className={currentPage === 1 ? classes.activePage : classes.formPage}
+        >
+          <RestaurantDetails
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            classes={classes}
+            setRestaurantData={setRestaurantData}
+          />
+        </div>
+        {/*  Contact */}
+        <div
+          className={currentPage === 2 ? classes.activePage : classes.formPage}
+        >
+          <RestaurantContact
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            classes={classes}
+            setRestaurantData={setRestaurantData}
+          />
+        </div>
 
-      {/* Page 3 */}
-      <div
-        className={currentPage === 3 ? classes.activePage : classes.formPage}
-      >
-        <OwnerDetails handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} classes={classes} />
-      </div>
-      {/* Page 4 */}
-      <div
-        className={currentPage === 4 ? classes.activePage : classes.formPage}
-      >
-        <RestaurantTiming handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} classes={classes} />
-      </div>
+        {/* Onwer Details */}
+        <div
+          className={currentPage === 3 ? classes.activePage : classes.formPage}
+        >
+          <OwnerDetails
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            classes={classes}
+            setRestaurantData={setRestaurantData}
+          />
+        </div>
+        {/* Restaurant Timings */}
+        <div
+          className={currentPage === 4 ? classes.activePage : classes.formPage}
+        >
+          <RestaurantTiming
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            classes={classes}
+            setRestaurantData={setRestaurantData}
+            restaurantData={restaurantData}
+            setLoading={setLoading}
+          />
+        </div>
     </div>
   );
 };

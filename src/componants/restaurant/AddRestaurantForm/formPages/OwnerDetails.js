@@ -1,7 +1,22 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-function OwnerDetails({handleNextPage,handlePrevPage,classes}) {
+function OwnerDetails({
+  handleNextPage,
+  handlePrevPage,
+  classes,
+  setRestaurantData,
+}) {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      owner: {
+        ...prevData.owner,
+        [name]: value,
+      },
+    }));
+  };
   return (
     <section className="vh-100">
       <div className="container h-100">
@@ -13,9 +28,7 @@ function OwnerDetails({handleNextPage,handlePrevPage,classes}) {
                   <div className="card-body p-4 p-lg-5 text-black">
                     <form method="POST">
                       <h2>Owner details</h2>
-                      <p className="small text-muted">
-                       Name,email,phone
-                      </p>
+                      <p className="small text-muted">Name,email,phone</p>
                       <div className="form-outline flex-fill mb-4">
                         <input
                           required
@@ -24,6 +37,7 @@ function OwnerDetails({handleNextPage,handlePrevPage,classes}) {
                           id="form2Example17"
                           className="form-control"
                           name="name"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-outline flex-fill mb-4">
@@ -34,6 +48,7 @@ function OwnerDetails({handleNextPage,handlePrevPage,classes}) {
                           id="form2Example27"
                           className="form-control"
                           name="email"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-outline flex-fill mb-4">
@@ -45,6 +60,7 @@ function OwnerDetails({handleNextPage,handlePrevPage,classes}) {
                           id="form3Example4cd"
                           className="form-control"
                           name="phone"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className={classes.navigation}>

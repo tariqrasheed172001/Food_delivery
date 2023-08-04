@@ -1,6 +1,6 @@
 export const setFlagg = (state) => {
     return {
-      type: "SET_OTP_FLAG",
+      type: "SET_FLAG",
       payload: state,
     };
   };

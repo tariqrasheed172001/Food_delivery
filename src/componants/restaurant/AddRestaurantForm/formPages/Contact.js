@@ -1,7 +1,22 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-function Contact({ handleNextPage, handlePrevPage, classes }) {
+function Contact({
+  handleNextPage,
+  handlePrevPage,
+  classes,
+  setRestaurantData,
+}) {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setRestaurantData((prevData) => ({
+      ...prevData,
+      restaurant: {
+        ...prevData.restaurant,
+        [name]: value,
+      },
+    }));
+  };
   return (
     <section className="vh-100">
       <div className="container h-100">
@@ -25,6 +40,7 @@ function Contact({ handleNextPage, handlePrevPage, classes }) {
                           id="form3Example4cd"
                           className="form-control"
                           name="phone"
+                          onChange={handleChange}
                         />
                       </div>
                       <div className={classes.navigation}>

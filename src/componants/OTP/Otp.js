@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router";
 import useNotification from "../snackbars/SnackBar";
 import axios from "axios";
 import "./otp.css";
+import { useDispatch } from "react-redux";
+import { setFlagg } from "../../Redux/Actions/flagAction";
 
 function Otp({setLoading}) {
   const location = useLocation();
@@ -19,6 +21,8 @@ function Otp({setLoading}) {
 
   const [otpVerification, setOtpVerification] = useState(false);
   const [resended, setResended] = useState(false);
+
+  const dispatch = useDispatch();
 
   const inputsRef = useRef([]);
 
@@ -85,6 +89,7 @@ function Otp({setLoading}) {
     console.log(receivedData);
     if (enteredOtp == receivedData?.otp) {
       setOtpVerification(true);
+      dispatch(setFlag(false));
     } else {
       setConf({ msg: "Wrong otp", variant: "error" });
       setOtpVerification(false);

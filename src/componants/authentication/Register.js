@@ -72,7 +72,7 @@ function Register({ setLoading }) {
         .catch((error) => {
           console.error("Error checking Existing Url:", error);
           setLoading(false);
-          setConf({ msg: error.response.data.message, variant: "warning" });
+          setConf({ msg: error?.response?.data?.message, variant: "warning" });
         });
     } else {
       setLoading(false);
@@ -81,13 +81,14 @@ function Register({ setLoading }) {
   };
 
   useEffect(() => {
-    if (otpFlag)
+    if (otpFlag){
       navigate("/send-otp", {
         state: {
           otp: otp,
           formData: data,
         },
       });
+    }
   }, [otpFlag, otp, navigate]);
 
   useEffect(() => {

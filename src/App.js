@@ -15,6 +15,7 @@ import ProgressBar from "./componants/ProgressBar/ProgressBar";
 import UserProfile from "./componants/userProfile/UserProfile";
 import LoginRegister from "./componants/RouteProtectionLogics/LoginRegister";
 import AddRestaurantForm from "./componants/restaurant/AddRestaurantForm/AddRestaurantForm";
+import Restaurant from "./componants/RouteProtectionLogics/Restaurant";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -49,8 +50,14 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/add-restaurant" element={<AddRestaurantForm />} />
-          
+
+          <Route element={<Restaurant />}>
+            <Route
+              path="/add-restaurant"
+              element={<AddRestaurantForm setLoading={setLoading} />}
+            />
+          </Route>
+
           <Route element={<LoginRegister />}>
             <Route path="/login" element={<Login />} />
             <Route
