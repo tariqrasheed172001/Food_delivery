@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@mui/styles';
 import OwnerDetails from "./formPages/OwnerDetails";
 import RestaurantDetails from "./formPages/Details";
 import RestaurantContact from "./formPages/Contact";
