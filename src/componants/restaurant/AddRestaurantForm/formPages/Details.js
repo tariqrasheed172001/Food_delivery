@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import useNotification from "../../../snackbars/SnackBar";
 
 function Details({
   handleNextPage,
@@ -17,6 +18,18 @@ function Details({
       },
     }));
   };
+  const [conf,setConf] = useNotification();
+
+  const handleNext = () => {
+    // Check if the required fields are filled
+    const { name, address } = restaurantData?.restaurant; 
+    if (!name || !address) {
+      setConf({msg:"Please fill all fields.",variant:"warning"});
+      return;
+    }else
+      handleNextPage()
+  };
+
   return (
     <section className="vh-100">
       <div className="container h-100">
@@ -54,7 +67,10 @@ function Details({
                         />
                       </div>
                       <div className={classes.navigation}>
-                        <Button variant="primary" onClick={handleNextPage}>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleNext()}
+                        >
                           Next
                         </Button>
                       </div>

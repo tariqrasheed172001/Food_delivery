@@ -89,7 +89,7 @@ function Otp({setLoading}) {
     console.log(receivedData);
     if (enteredOtp == receivedData?.otp) {
       setOtpVerification(true);
-      dispatch(setFlag(false));
+      // dispatch(setFlag(false));
     } else {
       setConf({ msg: "Wrong otp", variant: "error" });
       setOtpVerification(false);
@@ -97,11 +97,16 @@ function Otp({setLoading}) {
   };
 
   useEffect(() => {
-    if (otpVerification) registerUser();
+    if (otpVerification){ 
+      registerUser();
+    }
   }, [otpVerification]);
 
   useEffect(() => {
-    if (flag) navigate("/login");
+    if (flag) {
+      navigate("/login");
+      dispatch(setFlagg(false));
+    }
   }, [flag]);
 
   return (

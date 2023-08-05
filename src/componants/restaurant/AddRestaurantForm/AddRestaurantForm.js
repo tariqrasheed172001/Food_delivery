@@ -4,6 +4,7 @@ import OwnerDetails from "./formPages/OwnerDetails";
 import RestaurantDetails from "./formPages/Details";
 import RestaurantContact from "./formPages/Contact";
 import RestaurantTiming from "./formPages/Timing";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -29,12 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const AddRestaurantForm = ({ setLoading }) => {
   const classes = useStyles();
   const [currentPage, setCurrentPage] = useState(1);
-
+  const userData = useSelector((state) => state.userData);
   const [restaurantData, setRestaurantData] = useState({
     restaurant: {
       name: "",
-      address:"",
+      address: "",
       phone: "",
+      user_id:userData.user_id,
     },
     owner: {
       name: "",
@@ -48,18 +50,17 @@ const AddRestaurantForm = ({ setLoading }) => {
     },
   });
 
-  const handleNextPage = () => {
+  const handleNextPage = (event) => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handlePrevPage = () => {
+  const handlePrevPage = (event) => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
-
   console.log(restaurantData);
-
   return (
-    <div className={classes.formContainer}>
+    <div id="formId" className={classes.formContainer}>
+      <form>
         {/* Restaurant Details */}
         <div
           className={currentPage === 1 ? classes.activePage : classes.formPage}
@@ -69,6 +70,7 @@ const AddRestaurantForm = ({ setLoading }) => {
             handlePrevPage={handlePrevPage}
             classes={classes}
             setRestaurantData={setRestaurantData}
+            restaurantData={restaurantData}
           />
         </div>
         {/*  Contact */}
@@ -80,6 +82,8 @@ const AddRestaurantForm = ({ setLoading }) => {
             handlePrevPage={handlePrevPage}
             classes={classes}
             setRestaurantData={setRestaurantData}
+            restaurantData={restaurantData}
+            setLoading={setLoading}
           />
         </div>
 
@@ -92,6 +96,8 @@ const AddRestaurantForm = ({ setLoading }) => {
             handlePrevPage={handlePrevPage}
             classes={classes}
             setRestaurantData={setRestaurantData}
+            restaurantData={restaurantData}
+            setLoading={setLoading}
           />
         </div>
         {/* Restaurant Timings */}
@@ -107,6 +113,7 @@ const AddRestaurantForm = ({ setLoading }) => {
             setLoading={setLoading}
           />
         </div>
+      </form>
     </div>
   );
 };

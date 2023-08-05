@@ -18,10 +18,10 @@ function UserProfile({setLoading}) {
         setLoading(false);
         navigate('/');
       }, 2000);
-    localStorage.clear('userData');
+    localStorage.clear();
     dispatch(setFlagg(false));
   };
-
+  
   useEffect(()=>{
     setLoading(true);
     setTimeout(() => {

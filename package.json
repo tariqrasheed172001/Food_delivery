@@ -24,6 +24,7 @@
     "bootstrap": "^5.3.0",
     "dayjs": "^1.11.9",
     "gapi-script": "^1.2.0",
+    "google-maps-react": "^2.0.6",
     "install": "^0.13.0",
     "js-cookie": "^3.0.5",
     "mdbootstrap": "^4.20.0",

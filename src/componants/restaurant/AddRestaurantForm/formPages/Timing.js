@@ -208,6 +208,7 @@ function Timing({
                         </Button>
                         <Button
                           variant="success"
+                          type="submit"
                           onClick={(event) => handleSubmit(event)}
                         >
                           Submit

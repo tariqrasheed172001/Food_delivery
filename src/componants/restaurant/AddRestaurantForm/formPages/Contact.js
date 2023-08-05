@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import useNotification from "../../../snackbars/SnackBar";
+import OtpVerifier from "./OtpVerifier";
+import axios from "axios";
 
 function Contact({
   handleNextPage,
   handlePrevPage,
   classes,
   setRestaurantData,
+  restaurantData,
+  setLoading,
 }) {
+  const [conf, setConf] = useNotification();
+  const [sendOtp, setSendOtp] = useState(false);
+  const [phone, setPhone] = useState({
+    phone: "",
+  });
+  const [receivedOtp,setReceivedOtp] = useState();
+  const [verified,setVerified] = useState(false);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setRestaurantData((prevData) => ({
@@ -17,6 +30,34 @@ function Contact({
       },
     }));
   };
+
+  const url = `${process.env.REACT_APP_API}/send-restaurant-contact-otp`;
+  const send = () =>{
+    console.log(phone.phone)
+    axios
+      .post(url, phone, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        setReceivedOtp(res.data.otp);
+        console.log("received",receivedOtp);
+      })
+      .catch((error) => {
+        console.error("Error sending OTP:", error);
+      });
+  }
+  useEffect(()=>{
+    if(sendOtp)
+      send();
+  },[sendOtp]);
+
+  const handleNext = (event) => {
+    if(verified)
+      handleNextPage(event);
+    else{
+      setConf({msg:"Please verify phone number",variant:"warning"});
+    }
+  }
+
   return (
     <section className="vh-100">
       <div className="container h-100">
@@ -31,7 +72,7 @@ function Contact({
                       <p className="small text-muted">
                         For queries,customer will call on this number
                       </p>
-                      <div className="form-outline flex-fill mb-4">
+                      <div className="form-outline flex-fill mb-2">
                         <input
                           required
                           placeholder="Contact"
@@ -41,8 +82,43 @@ function Contact({
                           className="form-control"
                           name="phone"
                           onChange={handleChange}
+                          disabled={verified}
                         />
+                        <button
+                          style={{ marginLeft: "1rem" }}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            const phoneInput = event.target.previousSibling;
+                            if (phoneInput.value.trim() !== "") {
+                              setPhone({
+                                ...phone,
+                                phone: `+91${phoneInput.value.trim()}`,
+                              });
+                              setSendOtp(true);
+                            } else {
+                              setConf({
+                                msg: "Please enter Contact.",
+                                variant: "warning",
+                              });
+                            }
+                          }}
+                          className="btn btn-outline-primary"
+                          disabled={verified}
+                        >
+                          {verified ? "Verified" : "Verify"}
+                        </button>
                       </div>
+                      {sendOtp && (
+                        <div className="form-outline flex-fill mb-4">
+                          <OtpVerifier
+                            setFlag={setSendOtp}
+                            setLoading={setLoading}
+                            receivedOtp={receivedOtp}
+                            setVerified={setVerified}
+                          />
+                        </div>
+                      )}
+
                       <div className={classes.navigation}>
                         <Button
                           className={classes.button}
@@ -51,7 +127,7 @@ function Contact({
                         >
                           Previous
                         </Button>
-                        <Button variant="primary" onClick={handleNextPage}>
+                        <Button variant="primary" onClick={handleNext}>
                           Next
                         </Button>
                       </div>
