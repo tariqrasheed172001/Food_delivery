@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PageNotFound from "./PageNotFound";
+import PageNotFound from "../Pages/PageNotFound";
 import useNotification from "../snackbars/SnackBar";
 import { useDispatch } from "react-redux";
 import { setFlagg } from "../../Redux/Actions/flagAction";

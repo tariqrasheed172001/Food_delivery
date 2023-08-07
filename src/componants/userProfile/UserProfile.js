@@ -57,6 +57,9 @@ function UserProfile({setLoading}) {
                     <p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>
                       {userData.phone}
                     </p>
+                    <a onClick={()=> navigate('/my-restaurant')} className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>
+                      My restaurant
+                    </a>
                     <div
                       className="d-flex justify-content-start rounded-3 p-2 mb-2"
                       style={{ backgroundColor: "#efefef" }}

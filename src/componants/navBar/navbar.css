@@ -6,3 +6,6 @@
 .navbar-nav a{
     font-size: large;
 }
+.navbar-container{
+    margin:0 10%;
+}

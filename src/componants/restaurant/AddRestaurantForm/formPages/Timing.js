@@ -122,7 +122,7 @@ function Timing({
                     <form method="POST">
                       <h2>Restaurant timings</h2>
                       <p className="small text-muted">
-                        Select the opening ours and working days.
+                        Select the opening hours and working days.
                       </p>
                       <div className="form-outline flex-fill mb-4">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>

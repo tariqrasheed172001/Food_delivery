@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./componants/authentication/Login/Login";
 import Register from "./componants/authentication/Register";
 import Landing from "./componants/Pages/Landing";
@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Otp from "./componants/OTP/Otp";
 import ResetPassword from "./componants/authentication/ResetPassword";
-import PageNotFound from "./componants/authentication/PageNotFound";
+import PageNotFound from "./componants/Pages/PageNotFound";
 import ProtectedRoute from "./componants/RouteProtectionLogics/ProtectedRoute";
 import ProtectedResetPassword from "./componants/RouteProtectionLogics/ResetPassword";
 import ProtectedOtpRoute from "./componants/RouteProtectionLogics/OtpRoute";
@@ -16,6 +16,9 @@ import UserProfile from "./componants/userProfile/UserProfile";
 import LoginRegister from "./componants/RouteProtectionLogics/LoginRegister";
 import AddRestaurantForm from "./componants/restaurant/AddRestaurantForm/AddRestaurantForm";
 import Restaurant from "./componants/RouteProtectionLogics/Restaurant";
+import SideBar from "./componants/restaurant/sideBar/SideBar";
+import MyRestaurant from "./componants/restaurant/restaurantProfile/MyRestaurant";
+import ComingSoon from "./componants/Pages/comingSoon/ComingSoon";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -50,6 +53,12 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+
+          <Route path="/my-restaurant" element={<SideBar />} >
+            <Route path="setting" element={<MyRestaurant />} />
+            <Route path="customer-list" element={<ComingSoon />} />
+          </Route>
+      
 
           <Route element={<Restaurant />}>
             <Route

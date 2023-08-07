@@ -14,7 +14,7 @@ function NavBar() {
     }
   }, []);
   return (
-    <div>
+    <div className="navbar-container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light nav">
         <div className="container-fluid ">
           <a className="navbar-brand" href="/">

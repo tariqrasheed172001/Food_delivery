@@ -43,6 +43,7 @@ function OwnerDetails({
       .then((res) => {
         console.log(res);
         setReceivedOtp(res.data.otp);
+        setConf({msg:"OTP sent",variant:"success"})
         console.log("received", receivedOtp);
       })
       .catch((error) => {
@@ -81,6 +82,26 @@ function OwnerDetails({
         setConf({msg:"Please verify email address",variant:"warning"});
     }
   }
+
+  useEffect(()=>{
+    if(phoneVerified){
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false);
+        setConf({msg:"Verification successfull",variant:"success"});
+      }, 1000);
+    }
+  },[phoneVerified])
+  
+  useEffect(()=>{
+    if(emailVerified){
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false);
+        setConf({msg:"Verification successfull",variant:"success"});
+      }, 1000);
+    }
+  },[emailVerified])
 
   return (
     <section className="vh-100">
@@ -127,7 +148,7 @@ function OwnerDetails({
                                 email: emailInput.value.trim(),
                               });
                               setEndPoint("send-owner-email-otp");
-                              setEmailFlag(true);
+                              setEmailFlag(!emailFlag);
                             } else {
                               setConf({
                                 msg: "Please enter an email address.",
@@ -177,7 +198,7 @@ function OwnerDetails({
                                 phone: `+91${phoneInput.value.trim()}`,
                               });
                               setEndPoint("send-owner-phone-otp");
-                              setPhoneFlag(true);
+                              setPhoneFlag(!phoneFlag);
                             } else {
                               setConf({
                                 msg: "Please enter Mobile number.",

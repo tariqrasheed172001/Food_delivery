@@ -30,18 +30,15 @@ function OtpVerifier({ setLoading, setFlag,receivedOtp, setVerified }) {
 
   const handleClick = (event) => {
     event.preventDefault();
-    setLoading(true);
     const enteredOtp = inputsRef.current.map((input) => input.value).join("");
     console.log("entered",enteredOtp);
     console.log("received",receivedOtp);
     if (enteredOtp === receivedOtp) {
         setFlag(false);
-        setConf({ msg: "Verified successfully", variant: "success" });
+        setConf({ msg: "Verification successfully", variant: "success" });
         setVerified(true);
-        setLoading(false);
     } else {
       setConf({ msg: "Wrong otp", variant: "error" });
-      setLoading(false);
     }
   };
   return (

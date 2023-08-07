@@ -39,6 +39,7 @@ function Contact({
       .then((res) => {
         console.log(res);
         setReceivedOtp(res.data.otp);
+        setConf({msg:"OTP sent",variant:"success"})
         console.log("received",receivedOtp);
       })
       .catch((error) => {
@@ -49,6 +50,16 @@ function Contact({
     if(sendOtp)
       send();
   },[sendOtp]);
+
+  useEffect(()=>{
+    if(verified){
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false);
+        setConf({msg:"Verification successfull",variant:"success"});
+      }, 1000);
+    }
+  },[verified])
 
   const handleNext = (event) => {
     if(verified)
@@ -94,7 +105,7 @@ function Contact({
                                 ...phone,
                                 phone: `+91${phoneInput.value.trim()}`,
                               });
-                              setSendOtp(true);
+                              setSendOtp(!sendOtp);
                             } else {
                               setConf({
                                 msg: "Please enter Contact.",
