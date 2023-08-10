@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import useNotification from "../../../snackbars/SnackBar";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setFlagg } from "../../../../Redux/Actions/flagAction";
 
 function OtpVerifier({ setLoading, setFlag,receivedOtp, setVerified }) {
   const [conf, setConf] = useNotification();

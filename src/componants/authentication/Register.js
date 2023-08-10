@@ -5,9 +5,8 @@ import useNotification from "../snackbars/SnackBar";
 import GoogleAuth from "./GoogleAuth";
 import { useDispatch } from "react-redux";
 import { setFlagg } from "../../Redux/Actions/flagAction";
+import { emailExistingURL, otpURL } from "../../BackEndURLs/Urls";
 
-const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
-const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 function Register({ setLoading }) {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ function Register({ setLoading }) {
   const sendOtp = () => {
     axios
       .post(
-        otpUrl,
+        otpURL,
         { phoneNumber: `+91${data.phone}`, email: `${data.email}` },
         { withCredentials: true }
       )
@@ -60,7 +59,7 @@ function Register({ setLoading }) {
     if (data.passwordd === compPassword) {
       axios
         .post(
-          emailExistingUrl,
+          emailExistingURL,
           { email: data.email },
           { withCredentials: true }
         )

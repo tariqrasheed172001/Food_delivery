@@ -9,8 +9,9 @@ import "./login.css";
 import ProgressBar from "../../ProgressBar/ProgressBar";
 import { setUserData } from "../../../Redux/Actions/userDataActions";
 import { setFlagg } from "../../../Redux/Actions/flagAction";
+import { ResetPasswordURL, getRestaurantURL, loginURL } from "../../../BackEndURLs/Urls";
+import { setRestaurantProfile } from "../../../Redux/Actions/restaurantProfileAction";
 
-const url = `${process.env.REACT_APP_API}/login`;
 
 function Login() {
   const [conf, setConf] = useNotification();
@@ -20,8 +21,6 @@ function Login() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const data = useSelector((state) => state.userData);
-  console.log(data);
 
   axios.defaults.withCredentials = true;
 
@@ -33,14 +32,14 @@ function Login() {
   const login = async () => {
     setLoading(true);
     await axios
-      .post(url, formData, { withCredentials: true })
+      .post(loginURL, formData, { withCredentials: true })
       .then((res) => {
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
-          setFlag(true);
           dispatch(setUserData(res.data.user));
           setLoading(false);
           Cookies.set("token", res.data.token, { expires: 1 });
+          setFlag(true);
         } else if (res.status === 201) {
           setLoading(false);
           setConf({ msg: res.data.message, variant: "error" });
@@ -57,8 +56,27 @@ function Login() {
     login();
   };
 
+  const data = useSelector((state)=>state.userData);
+  const getRestaurant = async () => {
+    await axios
+      .post(getRestaurantURL,data, { withCredentials: true })
+      .then((res) => {
+        if (res.status === 202) {
+          dispatch(setRestaurantProfile(null));
+          console.log("data is not there");
+        } else {
+          dispatch(setRestaurantProfile(res.data));
+          console.log("data is there", res);
+        }
+      })
+      .catch((error) => {
+        console.log("User not found", error);
+      });
+  };
+
   useEffect(() => {
     if (flag) {
+      getRestaurant();
       navigate("/");
     }
   }, [flag, navigate]);
@@ -75,7 +93,7 @@ function Login() {
     event.preventDefault();
     setLoading(true);
     axios
-      .post(`${process.env.REACT_APP_API}/reset-password`, forgetPasswordEmail)
+      .post(ResetPasswordURL, forgetPasswordEmail)
       .then((res) => {
         setConf({
           msg: "Link has been sent. Check your inbox",

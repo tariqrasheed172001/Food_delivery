@@ -12,12 +12,10 @@ import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded
 import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from '@mui/icons-material/Home';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import SportsHandballIcon from '@mui/icons-material/SportsHandball';
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from '@mui/icons-material/Info';
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import "./sideBar.css";
 import { useProSidebar } from "react-pro-sidebar";
@@ -91,15 +89,11 @@ function SideBar() {
           <MenuItem icon={<MonetizationOnRoundedIcon />}>Transactions</MenuItem>
           <SubMenu label="Settings" icon={<SettingsIcon />}>
             <MenuItem
-              icon={<AccountCircleRoundedIcon />}
+              icon={<InfoIcon />}
               component={<Link to="setting" className="link" />}
             >
               {" "}
-              Account{" "}
-            </MenuItem>
-            <MenuItem icon={<ShieldRoundedIcon />}> Privacy </MenuItem>
-            <MenuItem icon={<NotificationsRoundedIcon />}>
-              Notifications
+              Restaurant details{" "}
             </MenuItem>
           </SubMenu>
           <MenuItem icon={<LogoutRoundedIcon />}> Logout </MenuItem>

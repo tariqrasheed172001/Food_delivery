@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import useNotification from "../../../snackbars/SnackBar";
 import Iframe from "react-iframe";
-import SearchBar from "../../../searchBar/SearchBar";
 import Autocomplete from "react-google-autocomplete";
-import axios from "axios";
 
 function Details({
   handleNextPage,

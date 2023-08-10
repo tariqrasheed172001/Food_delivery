@@ -14,6 +14,7 @@
     color: #165a72;
 }
 .sideBar-container{
+    background-color: rgb(225, 224, 222);
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -22,3 +23,19 @@
     flex: 1;
     overflow-y: auto; /* Add vertical scrolling to the main content */
   }
+
+  /* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    
+  }
+  
+  /* Media Query for low resolution  Tablets, Ipads */
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+  }
+  
+  /* Media Query for Tablets Ipads portrait mode */
+  @media (min-width: 768px) and (max-width: 1024px){
+    
+  }
+  

@@ -36,7 +36,7 @@ const AddRestaurantForm = ({ setLoading }) => {
       name: "",
       address: "",
       phone: "",
-      user_id:userData.user_id,
+      user_id: userData.user_id,
     },
     owner: {
       name: "",

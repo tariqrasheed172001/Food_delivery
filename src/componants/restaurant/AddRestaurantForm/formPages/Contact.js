@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import useNotification from "../../../snackbars/SnackBar";
 import OtpVerifier from "./OtpVerifier";
 import axios from "axios";
+import { restaurantContactOtpURL } from "../../../../BackEndURLs/Urls";
 
 function Contact({
   handleNextPage,
@@ -31,11 +32,10 @@ function Contact({
     }));
   };
 
-  const url = `${process.env.REACT_APP_API}/send-restaurant-contact-otp`;
   const send = () =>{
     console.log(phone.phone)
     axios
-      .post(url, phone, { withCredentials: true })
+      .post(restaurantContactOtpURL, phone, { withCredentials: true })
       .then((res) => {
         console.log(res);
         setReceivedOtp(res.data.otp);

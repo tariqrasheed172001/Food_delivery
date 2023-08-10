@@ -8,6 +8,9 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import useNotification from "../../../snackbars/SnackBar";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addRestaurantURL, getRestaurantURL } from "../../../../BackEndURLs/Urls";
+import { setRestaurantProfile } from "../../../../Redux/Actions/restaurantProfileAction";
 
 function Timing({
   handleNextPage,
@@ -29,6 +32,7 @@ function Timing({
   const [opensAt, setOpensAt] = useState(dayjs("2022-04-17T15:30"));
   const [closesAt, setClosesAt] = useState(dayjs("2022-04-17T15:30"));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [flag,setFlag] = useState(false);
 
   const handleCheckboxChange = (event) => {
@@ -85,14 +89,31 @@ function Timing({
   };
 
   const [conf, setConf] = useNotification();
-  const url = `${process.env.REACT_APP_API}/add-restaurant`;
+  const data = useSelector((state)=>state.userData);
+
+  const getRestaurant = async () => {
+    await axios
+      .post(getRestaurantURL,data, { withCredentials: true })
+      .then((res) => {
+        if (res.status === 202) {
+          dispatch(setRestaurantProfile(null));
+          console.log("data is not there");
+        } else {
+          dispatch(setRestaurantProfile(res.data));
+          console.log("data is there", res);
+        }
+      })
+      .catch((error) => {
+        console.log("User not found", error);
+      });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
     await axios
-      .post(url, restaurantData, { withCredentials: true })
+      .post(addRestaurantURL, restaurantData, { withCredentials: true })
       .then((res) => {
         setConf({ msg: res.data.message, variant: "success" });
         console.log(res);
@@ -103,9 +124,11 @@ function Timing({
         setConf({ msg: "error while adding restaurant", variant: "error" });
         setLoading(false);
       });
+      
   };
 
   useEffect(()=>{
+    getRestaurant();
     if(flag)
       navigate('/');
   },[flag]);
