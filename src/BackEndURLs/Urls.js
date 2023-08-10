@@ -6,6 +6,10 @@ const emailExistingURL = `${process.env.REACT_APP_API}/checkExistingEmail`;
 const registerURL = `${process.env.REACT_APP_API}/register`;
 const restaurantContactOtpURL = `${process.env.REACT_APP_API}/send-restaurant-contact-otp`;
 const addRestaurantURL = `${process.env.REACT_APP_API}/add-restaurant`;
+const addRestaurantBankDetailsURL = `${process.env.REACT_APP_API}/add-bank-details`;
+const editRestaurantBankDetailsURL = `${process.env.REACT_APP_API}/update-bank-details`;
+const editRestaurantInfoURL = `${process.env.REACT_APP_API}/update-information`;
+const editRestaurantOnwerDetails = `${process.env.REACT_APP_API}/update-owner-details`;
 export {
   getRestaurantURL,
   loginURL,
@@ -14,5 +18,9 @@ export {
   emailExistingURL,
   registerURL,
   restaurantContactOtpURL,
-  addRestaurantURL
+  addRestaurantURL,
+  addRestaurantBankDetailsURL,
+  editRestaurantBankDetailsURL,
+  editRestaurantInfoURL,
+  editRestaurantOnwerDetails
 };

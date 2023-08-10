@@ -1,12 +1,33 @@
 import Cookies from "js-cookie";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFlagg } from "../../Redux/Actions/flagAction";
+import { getRestaurantURL } from "../../BackEndURLs/Urls";
+import axios from "axios";
 
 function UserProfile({ setLoading }) {
   const userData = useSelector((state) => state.userData);
-  const restaurantProfile = useSelector((state) => state.restaurantProfile);
+  const [restaurantProfile,setRestaurantProfile] = useState(false);
+  const data = useSelector((state) => state.userData);
+
+  const getRestaurant = async () => {
+    await axios
+      .post(getRestaurantURL,data, { withCredentials: true })
+      .then((res) => {
+        if (res.status === 202) {
+          console.log("data is not there");
+          setRestaurantProfile(false);
+        } else {
+          setRestaurantProfile(true);
+          console.log("data is there", res);
+        }
+      })
+      .catch((error) => {
+        console.log("Restaurant details not found", error);
+      });
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let imageUrl = userData?.imageUrl;
@@ -25,6 +46,7 @@ function UserProfile({ setLoading }) {
   };
 
   useEffect(() => {
+    getRestaurant();
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

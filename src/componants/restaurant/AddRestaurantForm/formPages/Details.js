@@ -1,8 +1,16 @@
-import React, { useEffect } from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
 import useNotification from "../../../snackbars/SnackBar";
 import Iframe from "react-iframe";
 import Autocomplete from "react-google-autocomplete";
+import { Button } from "react-bootstrap";
+import Dialog from "@mui/material/Dialog";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
 
 function Details({
   handleNextPage,
@@ -31,15 +39,21 @@ function Details({
     } else handleNextPage();
   };
 
-  const handleMap = () => {
-    // Initialize the modal when the component mounts
-    const modal = new window.bootstrap.Modal(
-      document.getElementById("google-map")
-    );
-    modal.show(); // Show the modal immediately when the component mounts
+  const mapUrl = `https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_Google_API_KEY}&q=Hazratbal, Srinagar, Jammu and Kashmir 190006&zoom=16&maptype=satellite`;
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="down" ref={ref} {...props} />;
+  }); 
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  const mapUrl = `https://www.google.com/maps/embed/v1/search?key=${process.env.REACT_APP_Google_API_KEY}&q=Hazratbal, Srinagar, Jammu and Kashmir 190006&zoom=16&maptype=satellite`;
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <section className="vh-100">
@@ -76,50 +90,64 @@ function Details({
                           name="address"
                           onChange={handleChange}
                         />
-                        <a
-                          className="small text-muted"
-                          style={{
-                            cursor: "pointer",
-                            textDecoration: "none",
-                            border: "1px solid lightGrey",
-                            borderRadius: "5px",
-                            marginLeft: "1rem",
-                          }}
-                          onClick={() => handleMap()}
-                        >
-                          Get address
-                        </a>
-                        {/* forget password model start */}
-                        <div
-                          className="modal top fade"
-                          id="google-map"
-                          tabIndex="-1"
-                          aria-labelledby="exampleModalLabel"
-                          aria-hidden="true"
-                          data-mdb-backdrop="true"
-                          data-mdb-keyboard="true"
-                        >
-                          <div
-                            className="modal-dialog modal-xl"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              position: "fixed",
-                              top: "50%",
-                              left: "50%",
-                              transform: "translate(-50%, -50%)",
-                            }}
+
+                        <div>
+                          <button className="btn btn-outline-primary" style={{fontSize:"1rem", marginLeft: "1rem"}} variant="outlined" onClick={handleClickOpen}>
+                            Get
+                          </button>
+                          {open && 
+                          <Dialog
+                            fullScreen
+                            open={open}
+                            onClick={()=>handleClose()}
+                            TransitionComponent={Transition}
                           >
-                            <div className="modal-content text-center">
-                              <div className="modal-header h5 text-white bg-primary justify-content-center">
-                                Grab your restaurant address
-                              </div>
-                              <Autocomplete
+                            <AppBar sx={{ position: "relative" }}>
+                              <Toolbar>
+                                <IconButton
+                                  edge="start"
+                                  color="inherit"
+                                  onClick={handleClose}
+                                  aria-label="close"
+                                >
+                                  <CloseIcon />
+                                </IconButton>
+                                <Typography
+                                  sx={{ ml: 2, flex: 1 }}
+                                  variant="h6"
+                                  component="div"
+                                >
+                                  Find your restaurant
+                                </Typography>
+                                <Button
+                                  autoFocus
+                                  color="inherit"
+                                  onClick={()=>handleClose()}
+                                >
+                                  save
+                                </Button>
+                              </Toolbar>
+                            </AppBar>
+                            <Divider/>
+                            <Divider/>
+                            <Divider/>
+                            <Divider/>
+                            <Divider/>
+                            <Divider/>
+                            <Divider/>
+                            <Autocomplete
                                 apiKey={process.env.REACT_APP_Google_API_KEY}
                                 onPlaceSelected={(place) => {
                                   console.log(place);
                                 }}
                               />
+                              <Divider/>
+                              <Divider/>
+                              <Divider/>
+                              <Divider/>
+                              <Divider/>
+                              <Divider/>
+                              <Divider/>
                               <Iframe
                                 src={mapUrl}
                                 allowFullScreen
@@ -128,9 +156,8 @@ function Details({
                                   borderRadius: "5px",
                                 }}
                               />
-                              {/* <SearchBar /> */}
-                            </div>
-                          </div>
+                          </Dialog>
+                        }
                         </div>
                       </div>
                       <div className={classes.navigation}>

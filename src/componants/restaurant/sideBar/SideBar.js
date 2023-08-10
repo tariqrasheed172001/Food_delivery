@@ -24,7 +24,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import MyRestaurant from "../restaurantProfile/MyRestaurant";
 import ComingSoon from "../../Pages/comingSoon/ComingSoon";
 
-function SideBar() {
+function SideBar({setLoading}) {
   const {
     collapseSidebar,
     toggleSidebar,

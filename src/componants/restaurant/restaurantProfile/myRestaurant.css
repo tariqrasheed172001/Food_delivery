@@ -1,6 +1,7 @@
 .card-columns {
     column-count: 2;
     padding: 20px;
+    
   }
 .image{
     height: 70%;
@@ -14,6 +15,7 @@
   color: #0d6efd;
 } */
 .card{
+  -webkit-column-break-inside: avoid; 
   padding-top: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -42,6 +44,7 @@
   height: 80vh
 }
 
+
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
   .card-columns {
@@ -67,7 +70,9 @@
     height: 60vh
   }
 }
-
+.contain{
+  height: 100vh;
+}
 .divider{
   margin-bottom: 1rem;
 }

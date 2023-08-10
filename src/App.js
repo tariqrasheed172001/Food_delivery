@@ -19,65 +19,70 @@ import Restaurant from "./componants/RouteProtectionLogics/Restaurant";
 import SideBar from "./componants/restaurant/sideBar/SideBar";
 import MyRestaurant from "./componants/restaurant/restaurantProfile/MyRestaurant";
 import ComingSoon from "./componants/Pages/comingSoon/ComingSoon";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   const [loading, setLoading] = useState(false);
   return (
-    <SnackbarProvider anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-      <BrowserRouter>
-        {loading && <ProgressBar />}
-        <Routes>
-          {/* Protected from unAuthurised user */}
-          <Route element={<ProtectedRoute />}>
-            <Route
-              path="/landing"
-              element={<Landing setLoading={setLoading} />}
-            />
-            <Route
-              path="/user-profile"
-              element={<UserProfile setLoading={setLoading} />}
-            />
-          </Route>
-          {/* if the reset password link is not sended then these are protected */}
-          <Route element={<ProtectedResetPassword />}>
-            <Route
-              path="reset-password/:user_id/:token"
-              element={<ResetPassword setLoading={setLoading} />}
-            />
-            <Route path="reset-password" />
-          </Route>
-          {/* if otp is not sended then this is protected */}
-          <Route element={<ProtectedOtpRoute />}>
-            <Route path="/send-otp" element={<Otp setLoading={setLoading} />} />
-          </Route>
+      <SnackbarProvider
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <BrowserRouter>
+          {loading && <ProgressBar />}
+          <Routes>
+            {/* Protected from unAuthurised user */}
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path="/landing"
+                element={<Landing setLoading={setLoading} />}
+              />
+              <Route
+                path="/user-profile"
+                element={<UserProfile setLoading={setLoading} />}
+              />
+            </Route>
+            {/* if the reset password link is not sended then these are protected */}
+            <Route element={<ProtectedResetPassword />}>
+              <Route
+                path="reset-password/:user_id/:token"
+                element={<ResetPassword setLoading={setLoading} />}
+              />
+              <Route path="reset-password" />
+            </Route>
+            {/* if otp is not sended then this is protected */}
+            <Route element={<ProtectedOtpRoute />}>
+              <Route
+                path="/send-otp"
+                element={<Otp setLoading={setLoading} />}
+              />
+            </Route>
 
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
 
-          <Route path="/my-restaurant" element={<SideBar />} >
-            <Route path="setting" element={<MyRestaurant />} />
-            <Route path="customer-list" element={<ComingSoon />} />
-          </Route>
-      
+            <Route path="/my-restaurant" element={<SideBar setLoading={setLoading} />}>
+              <Route path="setting" element={<MyRestaurant />} />
+              <Route path="customer-list" element={<ComingSoon />} />
+            </Route>
 
-          <Route element={<Restaurant />}>
-            <Route
-              path="/add-restaurant"
-              element={<AddRestaurantForm setLoading={setLoading} />}
-            />
-          </Route>
+            <Route element={<Restaurant />}>
+              <Route
+                path="/add-restaurant"
+                element={<AddRestaurantForm setLoading={setLoading} />}
+              />
+            </Route>
 
-          <Route element={<LoginRegister />}>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/register"
-              element={<Register setLoading={setLoading} />}
-            />
-          </Route>
-          <Route path="/page-not-found" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </SnackbarProvider>
+            <Route element={<LoginRegister />}>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/register"
+                element={<Register setLoading={setLoading} />}
+              />
+            </Route>
+            <Route path="/page-not-found" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SnackbarProvider>
   );
 }
 
