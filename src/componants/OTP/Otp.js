@@ -87,7 +87,6 @@ function Otp({setLoading}) {
     console.log(receivedData);
     if (enteredOtp == receivedData?.otp) {
       setOtpVerification(true);
-      // dispatch(setFlag(false));
     } else {
       setConf({ msg: "Wrong otp", variant: "error" });
       setOtpVerification(false);

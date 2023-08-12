@@ -47,7 +47,8 @@ function Details({
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (event) => {
+    event.preventDefault();
     setOpen(true);
   };
 
@@ -92,14 +93,13 @@ function Details({
                         />
 
                         <div>
-                          <button className="btn btn-outline-primary" style={{fontSize:"1rem", marginLeft: "1rem"}} variant="outlined" onClick={handleClickOpen}>
+                          <button  className="btn btn-outline-primary" style={{fontSize:"1rem", marginLeft: "1rem"}} variant="outlined" onClick={handleClickOpen}>
                             Get
                           </button>
                           {open && 
                           <Dialog
                             fullScreen
                             open={open}
-                            onClick={()=>handleClose()}
                             TransitionComponent={Transition}
                           >
                             <AppBar sx={{ position: "relative" }}>
@@ -152,7 +152,7 @@ function Details({
                                 src={mapUrl}
                                 allowFullScreen
                                 styles={{
-                                  height: "500px",
+                                  height: "100vh",
                                   borderRadius: "5px",
                                 }}
                               />

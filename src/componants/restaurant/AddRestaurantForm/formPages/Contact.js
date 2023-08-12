@@ -11,7 +11,6 @@ function Contact({
   classes,
   setRestaurantData,
   restaurantData,
-  setLoading,
 }) {
   const [conf, setConf] = useNotification();
   const [sendOtp, setSendOtp] = useState(false);
@@ -51,15 +50,7 @@ function Contact({
       send();
   },[sendOtp]);
 
-  useEffect(()=>{
-    if(verified){
-      setLoading(true)
-      setTimeout(() => {
-        setLoading(false);
-        setConf({msg:"Verification successfull",variant:"success"});
-      }, 1000);
-    }
-  },[verified])
+ 
 
   const handleNext = (event) => {
     if(verified)
@@ -123,7 +114,6 @@ function Contact({
                         <div className="form-outline flex-fill mb-4">
                           <OtpVerifier
                             setFlag={setSendOtp}
-                            setLoading={setLoading}
                             receivedOtp={receivedOtp}
                             setVerified={setVerified}
                           />

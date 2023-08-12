@@ -83,7 +83,6 @@ const AddRestaurantForm = ({ setLoading }) => {
             classes={classes}
             setRestaurantData={setRestaurantData}
             restaurantData={restaurantData}
-            setLoading={setLoading}
           />
         </div>
 
@@ -97,7 +96,6 @@ const AddRestaurantForm = ({ setLoading }) => {
             classes={classes}
             setRestaurantData={setRestaurantData}
             restaurantData={restaurantData}
-            setLoading={setLoading}
           />
         </div>
         {/* Restaurant Timings */}
@@ -110,7 +108,6 @@ const AddRestaurantForm = ({ setLoading }) => {
             classes={classes}
             setRestaurantData={setRestaurantData}
             restaurantData={restaurantData}
-            setLoading={setLoading}
           />
         </div>
       </form>

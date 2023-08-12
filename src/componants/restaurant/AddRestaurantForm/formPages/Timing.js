@@ -18,7 +18,6 @@ function Timing({
   classes,
   setRestaurantData,
   restaurantData,
-  setLoading,
 }) {
   const [weekdays, setWeekdays] = useState({
     Monday: true,
@@ -110,7 +109,7 @@ function Timing({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
+
 
     await axios
       .post(addRestaurantURL, restaurantData, { withCredentials: true })
@@ -118,11 +117,10 @@ function Timing({
         setConf({ msg: res.data.message, variant: "success" });
         console.log(res);
         setFlag(true);
-        setLoading(false);
+
       })
       .catch((error) => {
         setConf({ msg: "error while adding restaurant", variant: "error" });
-        setLoading(false);
       });
       
   };

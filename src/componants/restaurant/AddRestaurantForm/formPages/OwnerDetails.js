@@ -10,7 +10,7 @@ function OwnerDetails({
   classes,
   setRestaurantData,
   restaurantData,
-  setLoading,
+
 }) {
   const [conf, setConf] = useNotification();
   const [phoneFlag, setPhoneFlag] = useState(false);
@@ -85,9 +85,7 @@ function OwnerDetails({
 
   useEffect(()=>{
     if(phoneVerified){
-      setLoading(true)
       setTimeout(() => {
-        setLoading(false);
         setConf({msg:"Verification successfull",variant:"success"});
       }, 1000);
     }
@@ -95,9 +93,7 @@ function OwnerDetails({
   
   useEffect(()=>{
     if(emailVerified){
-      setLoading(true)
       setTimeout(() => {
-        setLoading(false);
         setConf({msg:"Verification successfull",variant:"success"});
       }, 1000);
     }
@@ -167,7 +163,6 @@ function OwnerDetails({
                         <div className="form-outline flex-fill mb-4">
                           <OtpVerifier
                             setFlag={setEmailFlag}
-                            setLoading={setLoading}
                             receivedOtp={receivedOtp}
                             setVerified={setEmailVerified}
                           />
@@ -197,7 +192,7 @@ function OwnerDetails({
                                 ...phone,
                                 phone: `+91${phoneInput.value.trim()}`,
                               });
-                              setEndPoint("send-owner-phone-otp");
+                              setEndPoint("verify-phone-number");
                               setPhoneFlag(!phoneFlag);
                             } else {
                               setConf({
@@ -216,7 +211,6 @@ function OwnerDetails({
                         <div className="form-outline flex-fill mb-4">
                           <OtpVerifier
                             setFlag={setPhoneFlag}
-                            setLoading={setLoading}
                             receivedOtp={receivedOtp}
                             setVerified={setPhoneVerified}
                           />

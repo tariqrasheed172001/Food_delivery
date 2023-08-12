@@ -22,6 +22,7 @@ import useNotification from "../../snackbars/SnackBar";
 import BankDetails from "./editPopUps/BankDetails";
 import Information from "./editPopUps/Information";
 import OwnerDetails from "./editPopUps/OwnerDetails";
+import Timings from "./editPopUps/Timings";
 
 function MyRestaurant() {
   const [mapUrl, setMapUrl] = useState(
@@ -109,7 +110,7 @@ function MyRestaurant() {
   };
 
   return (
-    <div className="container">
+    <div className="">
       <div className="row">
         <div>
           <div className="card map-card">
@@ -128,6 +129,65 @@ function MyRestaurant() {
         </div>
         <div>
           <div className="card-columns">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Information</h5>
+                <div className="divider">
+                  <Divider />
+                </div>
+                <form>
+                  <div className="form-group row align-items-start">
+                    <div className="mb-3">
+                      <label for="Name" className="col-sm-12 col-form-label">
+                        Name
+                      </label>
+                      <input
+                        class="form-control "
+                        type="text"
+                        value={restaurantProfile.restaurant?.name}
+                        aria-label="readonly input example"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="mb-3">
+                      <label for="Address" className="col-sm-12 col-form-label">
+                        Address
+                      </label>
+                      <input
+                        class="form-control "
+                        type="text"
+                        value={restaurantProfile.restaurant?.address}
+                        aria-label="readonly input example"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="mb-3">
+                      <label for="Contact" className="col-sm-12 col-form-label">
+                        Contact
+                      </label>
+                      <input
+                        class="form-control "
+                        type="text"
+                        value={restaurantProfile.restaurant?.phone_number}
+                        aria-label="readonly input example"
+                        readonly={false}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Information
+                      handleChange={handleChange}
+                      restaurantProfile={restaurantProfile}
+                      getRestaurant={getRestaurant}
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
             {bankFlag ? (
               <div className="card">
                 <div className="card-body">
@@ -251,65 +311,7 @@ function MyRestaurant() {
                 </div>
               </div>
             )}
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Information</h5>
-                <div className="divider">
-                  <Divider />
-                </div>
-                <form>
-                  <div className="form-group row align-items-start">
-                    <div className="mb-3">
-                      <label for="Name" className="col-sm-12 col-form-label">
-                        Name
-                      </label>
-                      <input
-                        class="form-control "
-                        type="text"
-                        value={restaurantProfile.restaurant?.name}
-                        aria-label="readonly input example"
-                        readonly
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <div className="mb-3">
-                      <label for="Address" className="col-sm-12 col-form-label">
-                        Address
-                      </label>
-                      <input
-                        class="form-control "
-                        type="text"
-                        value={restaurantProfile.restaurant?.address}
-                        aria-label="readonly input example"
-                        readonly
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <div className="mb-3">
-                      <label for="Contact" className="col-sm-12 col-form-label">
-                        Contact
-                      </label>
-                      <input
-                        class="form-control "
-                        type="text"
-                        value={restaurantProfile.restaurant?.phone_number}
-                        aria-label="readonly input example"
-                        readonly={false}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Information
-                      handleChange={handleChange}
-                      restaurantProfile={restaurantProfile}
-                      getRestaurant={getRestaurant}
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
+
             <div className="card">
               <div className="card-body ">
                 <h5 className="card-title">Owner</h5>
@@ -421,16 +423,11 @@ function MyRestaurant() {
                     </div>
                   </div>
                   <div>
-                    {/* <Timings
-                      handleClickOpen={handleClickOpen}
-                      handleClose={handleClose}
+                    <Timings
                       handleChange={handleChange}
                       restaurantProfile={restaurantProfile}
-                      edit={editBankDetails}
-                      setEdit={setEditBankDetails}
-                      handleEdit={handleEditBankDetails}
-                      open={open}
-                    /> */}
+                      getRestaurant={getRestaurant}
+                    />
                   </div>
                 </form>
               </div>

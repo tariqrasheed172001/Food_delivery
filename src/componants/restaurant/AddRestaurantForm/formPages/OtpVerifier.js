@@ -1,33 +1,33 @@
 import React, { useRef } from "react";
 import useNotification from "../../../snackbars/SnackBar";
 
-function OtpVerifier({ setLoading, setFlag,receivedOtp, setVerified }) {
+function OtpVerifier({ setFlag,receivedOtp, setVerified }) {
   const [conf, setConf] = useNotification();
   const codeLength = [1, 2, 3];
 
   const inputsRef = useRef([]);
 
   const handleChange = (e, index) => {
-    const value = e.target.value;
-    if (value && index < inputsRef.current.length - 1) {
-      inputsRef.current[index + 1].focus();
-    } else if (value && index === inputsRef.current.length - 1) {
+    const value = e?.target?.value;
+    if (value && index < inputsRef?.current?.length - 1) {
+      inputsRef?.current[index + 1].focus();
+    } else if (value && index === inputsRef?.current?.length - 1) {
       // If the last input field is filled, trigger handleClick
       handleClick(e);
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !e.target.value) {
+    if (e?.key === "Backspace" && !e?.target?.value) {
       if (index > 0) {
-        inputsRef.current[index - 1].focus();
+        inputsRef?.current[index - 1]?.focus();
       }
     }
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    const enteredOtp = inputsRef.current.map((input) => input.value).join("");
+    const enteredOtp = inputsRef?.current?.map((input) => input?.value)?.join("");
     console.log("entered",enteredOtp);
     console.log("received",receivedOtp);
     if (enteredOtp === receivedOtp) {

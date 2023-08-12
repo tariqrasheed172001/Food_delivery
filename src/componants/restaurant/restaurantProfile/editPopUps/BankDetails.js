@@ -10,9 +10,9 @@ import axios from "axios";
 import { editRestaurantBankDetailsURL } from "../../../../BackEndURLs/Urls";
 import useNotification from "../../../snackbars/SnackBar";
 
-function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
+function BankDetails({ handleChange, restaurantProfile, getRestaurant }) {
   const [open, setOpen] = React.useState(false);
-  const [conf,setConf] = useNotification();
+  const [conf, setConf] = useNotification();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,7 +30,7 @@ function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
     restaurant_id: "",
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     setEditBankDetails({
       ...editBankDetails,
       bank_id: restaurantProfile?.bank_details?.bank_id,
@@ -39,26 +39,34 @@ function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
       bank_name: restaurantProfile?.bank_details?.bank_name,
       bank_code: restaurantProfile?.bank_details?.bank_code,
     });
-  },[restaurantProfile])
+  }, [restaurantProfile]);
 
   const handleEditBankDetails = async () => {
-    await axios
-      .post(editRestaurantBankDetailsURL, editBankDetails, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-        handleClose();
-        setConf({ msg: res.data, variant: "success" });
-        getRestaurant();
-      })
-      .catch((error) => {
-        console.log(error);
-        setConf({
-          msg: "Internal server error try after some time",
-          variant: "error",
+    if (
+      editBankDetails?.account_number === "" ||
+      editBankDetails?.bank_code === "" ||
+      editBankDetails?.bank_name === ""
+    ) {
+      setConf({ msg: "Please fill all required fields.", variant: "warning" });
+    } else {
+      await axios
+        .post(editRestaurantBankDetailsURL, editBankDetails, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+          handleClose();
+          setConf({ msg: res.data, variant: "success" });
+          getRestaurant();
+        })
+        .catch((error) => {
+          console.log(error);
+          setConf({
+            msg: "Internal server error try after some time",
+            variant: "error",
+          });
         });
-      });
+    }
   };
   return (
     <div>
@@ -73,6 +81,7 @@ function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
           </DialogContentText>
           <TextField
             autoFocus
+            required
             margin="dense"
             label="Account Number"
             type="number"
@@ -86,6 +95,7 @@ function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
           />
           <TextField
             autoFocus
+            required
             margin="dense"
             label="Bank Name"
             type="text"
@@ -99,6 +109,7 @@ function BankDetails({handleChange,restaurantProfile,getRestaurant}) {
           />
           <TextField
             autoFocus
+            required
             margin="dense"
             label="Bank code"
             type="text"

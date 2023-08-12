@@ -28,6 +28,11 @@
   transform: scale(1.01); 
 }
 
+
+.map-card:hover{
+  transform: scale(1); 
+}
+
 .card-columns label{
     font-weight: bolder;
     text-align: left;
