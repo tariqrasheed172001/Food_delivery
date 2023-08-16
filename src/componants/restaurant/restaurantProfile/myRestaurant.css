@@ -1,0 +1,96 @@
+.card-columns {
+    column-count: 2;
+    padding: 20px;
+    
+  }
+.image{
+    height: 70%;
+    width: 30%;
+    border-radius: 50%;
+}
+/* .card-title{
+  font-weight:900;
+  font-size: larger;
+  font-family:sans-serif;
+  color: #0d6efd;
+} */
+.card{
+  -webkit-column-break-inside: avoid; 
+  padding-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  transform: scale(1.01); 
+}
+
+
+.map-card:hover{
+  transform: scale(1); 
+}
+
+.card-columns label{
+    font-weight: bolder;
+    text-align: left;
+    color: rgb(86, 85, 85);
+}
+.card-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.map-card{
+  margin: 20px 20px 0 20px;
+  height: 80vh
+}
+
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+  .card-columns {
+    column-count: 1;
+    column-gap: 15px; /* Adjust the gap between cards as needed */
+    padding: 10px;
+  }
+  .map-card{
+    margin: 10px 10px 0 10px;
+    height: 60vh
+  }
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .card-columns {
+    column-count: 1;
+    column-gap: 15px; /* Adjust the gap between cards as needed */
+    padding: 10px;
+  }
+  .map-card{
+    margin: 10px 10px 0 10px;
+    height: 60vh
+  }
+}
+.contain{
+  height: 100vh;
+}
+.divider{
+  margin-bottom: 1rem;
+}
+
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 768px) and (max-width: 1024px){
+  .card-columns {
+    column-count: 1;
+    column-gap: 15px; /* Adjust the gap between cards as needed */
+    padding: 10px;
+  }
+  .map-card{
+    margin: 10px 10px 0 10px;
+    height: 60vh
+  }
+}

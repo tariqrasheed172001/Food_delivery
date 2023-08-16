@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PageNotFound from "./PageNotFound";
+import PageNotFound from "../Pages/PageNotFound";
 import useNotification from "../snackbars/SnackBar";
 import { useDispatch } from "react-redux";
 import { setFlagg } from "../../Redux/Actions/flagAction";
@@ -50,7 +50,6 @@ function ResetPassword({ setLoading }) {
               setConf({ msg: res?.data?.message, variant: "warning" });
             } else {
               setConf({ msg: res?.data?.message, variant: "success" });
-              dispatch(setFlagg(false));
               setPasswordUpdation(true);
             }
           });
@@ -63,7 +62,10 @@ function ResetPassword({ setLoading }) {
   };
 
   useEffect(() => {
-    if (passwordUpdation) navigate("/login");
+    if (passwordUpdation) {
+      navigate("/login");
+      dispatch(setFlagg(false));
+    }
   }, [passwordUpdation]);
 
   useEffect(() => {

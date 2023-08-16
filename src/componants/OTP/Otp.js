@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router";
 import useNotification from "../snackbars/SnackBar";
 import axios from "axios";
 import "./otp.css";
+import { useDispatch } from "react-redux";
+import { setFlagg } from "../../Redux/Actions/flagAction";
+import { otpURL, registerURL } from "../../BackEndURLs/Urls";
 
 function Otp({setLoading}) {
   const location = useLocation();
@@ -14,11 +17,10 @@ function Otp({setLoading}) {
 
   const navigate = useNavigate();
 
-  const url = `${process.env.REACT_APP_API}/register`;
-  const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
-
   const [otpVerification, setOtpVerification] = useState(false);
   const [resended, setResended] = useState(false);
+
+  const dispatch = useDispatch();
 
   const inputsRef = useRef([]);
 
@@ -26,7 +28,7 @@ function Otp({setLoading}) {
     setLoading(true);
     axios
       .post(
-        otpUrl,
+        otpURL,
         {
           phoneNumber: `+91${receivedData?.formData?.phone}`,
           email: `${receivedData?.formData?.email}`,
@@ -49,7 +51,7 @@ function Otp({setLoading}) {
   const registerUser = () => {
     setLoading(true);
     axios
-      .post(url, receivedData?.formData, { withCredentials: true })
+      .post(registerURL, receivedData?.formData, { withCredentials: true })
       .then((res) => {
         console.log(res);
         setConf({ msg: res.data.message, variant: "success" });
@@ -92,11 +94,16 @@ function Otp({setLoading}) {
   };
 
   useEffect(() => {
-    if (otpVerification) registerUser();
+    if (otpVerification){ 
+      registerUser();
+    }
   }, [otpVerification]);
 
   useEffect(() => {
-    if (flag) navigate("/login");
+    if (flag) {
+      navigate("/login");
+      dispatch(setFlagg(false));
+    }
   }, [flag]);
 
   return (

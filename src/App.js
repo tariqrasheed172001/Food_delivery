@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./componants/authentication/Login/Login";
 import Register from "./componants/authentication/Register";
 import Landing from "./componants/Pages/Landing";
@@ -7,13 +7,20 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Otp from "./componants/OTP/Otp";
 import ResetPassword from "./componants/authentication/ResetPassword";
-import PageNotFound from "./componants/authentication/PageNotFound";
+import PageNotFound from "./componants/Pages/PageNotFound";
 import ProtectedRoute from "./componants/RouteProtectionLogics/ProtectedRoute";
 import ProtectedResetPassword from "./componants/RouteProtectionLogics/ResetPassword";
 import ProtectedOtpRoute from "./componants/RouteProtectionLogics/OtpRoute";
 import ProgressBar from "./componants/ProgressBar/ProgressBar";
 import UserProfile from "./componants/userProfile/UserProfile";
 import LoginRegister from "./componants/RouteProtectionLogics/LoginRegister";
+import AddRestaurantForm from "./componants/restaurant/AddRestaurantForm/AddRestaurantForm";
+import Restaurant from "./componants/RouteProtectionLogics/Restaurant";
+import SideBar from "./componants/restaurant/sideBar/SideBar";
+import MyRestaurant from "./componants/restaurant/restaurantProfile/MyRestaurant";
+import ComingSoon from "./componants/Pages/comingSoon/ComingSoon";
+import { ChakraProvider } from "@chakra-ui/react";
+import RestaurantAdmin from "./componants/RouteProtectionLogics/RestaurantAdmin";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -48,6 +55,24 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+
+          <Route element={<RestaurantAdmin />}>
+            <Route
+              path="/my-restaurant"
+              element={<SideBar setLoading={setLoading} />}
+            >
+              <Route path="setting" element={<MyRestaurant />} />
+              <Route path="customer-list" element={<ComingSoon />} />
+            </Route>
+          </Route>
+
+          <Route element={<Restaurant />}>
+            <Route
+              path="/add-restaurant"
+              element={<AddRestaurantForm setLoading={setLoading} />}
+            />
+          </Route>
+
           <Route element={<LoginRegister />}>
             <Route path="/login" element={<Login />} />
             <Route

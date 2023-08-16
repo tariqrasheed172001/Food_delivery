@@ -4,13 +4,19 @@ import axios from "axios";
 import useNotification from "../../snackbars/SnackBar";
 import Cookies from "js-cookie";
 import GoogleAuth from "../GoogleAuth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./login.css";
 import ProgressBar from "../../ProgressBar/ProgressBar";
 import { setUserData } from "../../../Redux/Actions/userDataActions";
 import { setFlagg } from "../../../Redux/Actions/flagAction";
-
-const url = `${process.env.REACT_APP_API}/login`;
+import { ResetPasswordURL, loginURL } from "../../../BackEndURLs/Urls";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 function Login() {
   const [conf, setConf] = useNotification();
@@ -19,9 +25,17 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const navigate = useNavigate();
-  const data = useSelector((state) => state.userData);
-  console.log(data);
 
   axios.defaults.withCredentials = true;
 
@@ -33,14 +47,14 @@ function Login() {
   const login = async () => {
     setLoading(true);
     await axios
-      .post(url, formData, { withCredentials: true })
+      .post(loginURL, formData, { withCredentials: true })
       .then((res) => {
         if (res.status === 200) {
           setConf({ msg: res.data.message, variant: "success" });
-          setFlag(true);
           dispatch(setUserData(res.data.user));
           setLoading(false);
           Cookies.set("token", res.data.token, { expires: 1 });
+          setFlag(true);
         } else if (res.status === 201) {
           setLoading(false);
           setConf({ msg: res.data.message, variant: "error" });
@@ -75,13 +89,14 @@ function Login() {
     event.preventDefault();
     setLoading(true);
     axios
-      .post(`${process.env.REACT_APP_API}/reset-password`, forgetPasswordEmail)
+      .post(ResetPasswordURL, forgetPasswordEmail)
       .then((res) => {
         setConf({
           msg: "Link has been sent. Check your inbox",
           variant: "success",
         });
         setLoading(false);
+        handleClose();
         dispatch(setFlagg(true));
         navigate("/login");
       })
@@ -126,9 +141,10 @@ function Login() {
                         <div className="d-flex align-items-center mb-3 pb-1">
                           <i
                             className="fas fa-cubes fa-2x me-3"
+                            
                             style={{ color: "#ff6219" }}
                           ></i>
-                          <span className="h1 fw-bold mb-0">Logo</span>
+                          <span className="h1 fw-bold mb-0">Hungrezy</span>
                         </div>
                         <h5
                           className="fw-normal mb-3 pb-3"
@@ -179,76 +195,53 @@ function Login() {
                           </button>
                         </div>
                         <div className="form-outline flex-fill mb-4">
-                          <GoogleAuth setFlag={setFlag} />
+                          <GoogleAuth setFlag={setFlag} setLoading={setLoading} />
                         </div>
-                        <a
-                          className="small text-muted"
-                          style={{
-                            cursor: "pointer",
-                            textDecoration: "none",
-                          }}
-                          onClick={() => handleResetButton()}
-                        >
-                          Forgot password
-                        </a>
-                        {/* forget password model start */}
-                        <div
-                          className="modal top fade"
-                          id="exampleModal"
-                          tabIndex="-1"
-                          aria-labelledby="exampleModalLabel"
-                          aria-hidden="true"
-                          data-mdb-backdrop="true"
-                          data-mdb-keyboard="true"
-                        >
-                          <div
-                            className="modal-dialog"
+                        <div>
+                          <a
+                            className="small text-muted"
+                            variant="outlined"
                             style={{
-                              width: "300px",
-                              position: "fixed",
-                              top: "50%",
-                              left: "50%",
-                              transform: "translate(-50%, -50%)",
+                              cursor: "pointer",
+                              textDecoration: "none",
                             }}
+                            onClick={handleClickOpen}
                           >
-                            <div className="modal-content text-center">
-                              <div className="modal-header h5 text-white bg-primary justify-content-center">
-                                Password Reset
-                              </div>
-                              <div className="modal-body px-5">
-                                <p className="py-2">
-                                  Enter your email address and we'll send you an
-                                  email with instructions to reset your
-                                  password.
-                                </p>
-                                <div className="form-outline">
-                                  <input
-                                    type="email"
-                                    id="typeEmail"
-                                    className="form-control my-3"
-                                    placeholder="Email"
-                                    name="email"
-                                    onChange={(event) => {
-                                      event.preventDefault();
-                                      setForgetPasswordEmail({
-                                        ...forgetPasswordEmail,
-                                        [event.target.name]: event.target.value,
-                                      });
-                                    }}
-                                  />
-                                </div>
-                                <a
-                                  onClick={(event) => handleSend(event)}
-                                  href="#"
-                                  className="btn btn-primary w-100"
-                                >
-                                  Send
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+                            Forgot password ?
+                          </a>
+                          <Dialog open={open} onClose={handleClose}>
+                            <DialogTitle>Password Reset</DialogTitle>
+                            <DialogContent>
+                              <DialogContentText>
+                                Enter your email address and we'll send you an
+                                email with instructions to reset your password.
+                              </DialogContentText>
+                              <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Email Address"
+                                type="email"
+                                fullWidth
+                                variant="standard"
+                                name="email"
+                                onChange={(event) => {
+                                  event.preventDefault();
+                                  setForgetPasswordEmail({
+                                    ...forgetPasswordEmail,
+                                    [event.target.name]: event.target.value,
+                                  });
+                                }}
+                              />
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose}>Cancel</Button>
+                              <Button onClick={(event) => handleSend(event)}>
+                                Send
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
                         </div>
-                        {/* forget password model end */}
 
                         <p
                           classNameName="mb-5 pb-lg-2"

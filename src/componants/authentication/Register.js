@@ -5,9 +5,8 @@ import useNotification from "../snackbars/SnackBar";
 import GoogleAuth from "./GoogleAuth";
 import { useDispatch } from "react-redux";
 import { setFlagg } from "../../Redux/Actions/flagAction";
+import { emailExistingURL, otpURL } from "../../BackEndURLs/Urls";
 
-const otpUrl = `${process.env.REACT_APP_API}/send-otp`;
-const emailExistingUrl = `${process.env.REACT_APP_API}/checkExistingEmail`;
 
 function Register({ setLoading }) {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ function Register({ setLoading }) {
   const sendOtp = () => {
     axios
       .post(
-        otpUrl,
+        otpURL,
         { phoneNumber: `+91${data.phone}`, email: `${data.email}` },
         { withCredentials: true }
       )
@@ -60,7 +59,7 @@ function Register({ setLoading }) {
     if (data.passwordd === compPassword) {
       axios
         .post(
-          emailExistingUrl,
+          emailExistingURL,
           { email: data.email },
           { withCredentials: true }
         )
@@ -72,7 +71,7 @@ function Register({ setLoading }) {
         .catch((error) => {
           console.error("Error checking Existing Url:", error);
           setLoading(false);
-          setConf({ msg: error.response.data.message, variant: "warning" });
+          setConf({ msg: error?.response?.data?.message, variant: "warning" });
         });
     } else {
       setLoading(false);
@@ -81,13 +80,14 @@ function Register({ setLoading }) {
   };
 
   useEffect(() => {
-    if (otpFlag)
+    if (otpFlag){
       navigate("/send-otp", {
         state: {
           otp: otp,
           formData: data,
         },
       });
+    }
   }, [otpFlag, otp, navigate]);
 
   useEffect(() => {
@@ -240,7 +240,7 @@ function Register({ setLoading }) {
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <GoogleAuth setFlag={setFlag} />
+                        <GoogleAuth setFlag={setFlag} setLoading={setLoading} />
                       </div>
 
                       <p className="text-center text-muted mt-5 mb-0">

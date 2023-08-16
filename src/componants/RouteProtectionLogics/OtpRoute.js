@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 
 function ProtectedOtproute() {
   const flag = useSelector((state) => state.flag);
+  console.log(flag)
   return <div>{flag ? <Outlet /> : <Home />}</div>;
 }
 
